@@ -1,56 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Amplify, {API,graphqlOperation} from 'aws-amplify';
-import { withAuthenticator} from 'aws-amplify-react'; 
+import React, { useState, useEffect, useReducer } from 'react';
+import { apiReducer, ACTION_TYPES } from './api/restApi';
 
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
-
-const createItem = `mutation createItem($value: String!){
-    createItem(input:{
-      value: $value
-    }){
-      __typename
-      id
-      value
-    }
-  }`;
-  const readItems = `query listItems{
-    listItems{
-      items{
-        __typename
-        id
-        value
-      }
-    }
-  }`;
-  
-  const deleteItem = `mutation deleteItem($id: ID!){
-    deleteItem(input:{
-      id: $id
-    }){
-      __typename
-      id
-      value
-    }
-  }`;
 
 function App() {
-    const [currentValue, setValue] = useState('');
+    const [valueToAdd, setValueToAdd] = useState('test');
     const [items, setItems] = useState([]);
-    const [triggerCreate, setTriggerCreate] = useState(null);
-    const [triggerDelete, setTriggerDelete] = useState(null);
+    const [, callApi] = useReducer(apiReducer);
 
     async function listItems(){
-        const items = await API.graphql(graphqlOperation(readItems));
-        setItems(items.data.listItems.items);
+        callApi({type: ACTION_TYPES.FETCH, callback: setItems});
     }
 
     function handleClickCreate() {
-        setTriggerCreate(triggerCreate+1);
+        callApi({type: ACTION_TYPES.ADD, value: valueToAdd, callback: listItems});
     }
 
     function handleClickDelete(id) {
-        setTriggerDelete(id);
+        callApi({type: ACTION_TYPES.DELETE, id, callback: listItems});
     }
 
     //empty array will make it run only once
@@ -58,47 +24,23 @@ function App() {
         listItems();
     }, []);
 
-    useEffect(() => {
-        async function deleteItemEffect(id) {
-            if(triggerDelete !== null) {
-                console.error('handleDelete');
-                const itemId = {"id":id};
-                await API.graphql(graphqlOperation(deleteItem, itemId));
-                listItems();
-            }
-        }
-        deleteItemEffect(triggerDelete);
-    }, [triggerDelete]);
-  
-    useEffect(() => {
-        async function createItemEffect() {
-            if(triggerCreate !== null) {
-                console.error('createItemEffect triggerCreate=', triggerCreate);
-                const item = {'value': currentValue}
-                await API.graphql(graphqlOperation(createItem, item));
-                listItems();
-            }
-        }
-        createItemEffect();
-      }, [triggerCreate]);
-
     return (
         <div>
             <input
                 type='text'
-                value={currentValue}
-                onChange={(e) => setValue(e.target.value)}
+                value={valueToAdd}
+                onChange={(e) => setValueToAdd(e.target.value)}
             />
             <button
                 onClick={handleClickCreate}
             >
-                Add {triggerCreate}
+                Add
             </button>
             <ul>
                 {items.map(item => {
                     return (
                         <li key={item.id}>
-                            {item.value}
+                            {item.value} {item.date}
                             <button
                                 key={item.i}
                                 onClick={() => handleClickDelete(item.id)}
@@ -113,5 +55,5 @@ function App() {
     );
 }
 
-export default withAuthenticator(App, { includeGreetings: true });
+export default App;
   
