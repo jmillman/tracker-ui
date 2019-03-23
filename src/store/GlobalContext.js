@@ -25,10 +25,11 @@ export function withGlobalContext(Component) {
             fetchItemsFromApp();
         }, []);
         
-        const addItemFromApp = (value, itemType) => {
+        const addItemFromApp = (value, itemType, addSuccessCallback) => {
             // addItem(value, itemType, date, (result) => callReducer({type: 'DATA', data: result}));
             addItem(value, itemType, (result) => {
                     fetchItemsFromApp();
+                    addSuccessCallback();
                 }
             );
         };

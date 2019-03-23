@@ -14,19 +14,26 @@ import {
     Label,
   } from 'semantic-ui-react';
 
-const useTypingSelectionBox = true;
+    // I have two different types of inputs, one you can type in, which is good for long lists
+  const useTypingSelectionBox = false;
 
 function AddItem() {
     const [ , , api] = useContext(GlobalContext);
     const [valueToAdd, setValueToAdd] = useState('');
     const [selectedItemType, setSelectedItemType] = useState('');
 
+
+    function addSuccessCallback(input) {
+        setSelectedItemType('');
+        setValueToAdd('');
+    }
+
     function handleClickCreate() {
-        api.addItemFromApp(valueToAdd, selectedItemType);
+        api.addItemFromApp(valueToAdd, selectedItemType, addSuccessCallback);
     }
 
     function itemFormChooser() {
-        const itemTypeSelected = itemTypes.find(({name}) => name == selectedItemType);
+        const itemTypeSelected = itemTypes.find(({name}) => name === selectedItemType);
         const returnArray = [];
         if(itemTypeSelected) {
             switch(itemTypeSelected.itemDataType) {
