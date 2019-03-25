@@ -21,13 +21,15 @@ function ItemCard() {
             <Table definition key={item.id}>
                 <Table.Body>
                     <Table.Row>
-                    <Table.Cell width={2}>Type</Table.Cell>
-                    <Table.Cell>{item.type}</Table.Cell>
+                    <Table.Cell width={2}>typeId</Table.Cell>
+                    <Table.Cell>{api.getItemTypeName(item.typeId)}</Table.Cell>
                     </Table.Row>
+                    {item.value ? 
                     <Table.Row>
                     <Table.Cell>Value</Table.Cell>
                     <Table.Cell>{item.value}</Table.Cell>
                     </Table.Row>
+                    : null}
                     <Table.Row>
                     <Table.Cell>Date</Table.Cell>
                     <Table.Cell>{item.date}</Table.Cell>

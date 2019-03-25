@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import GlobalContext from '../store/GlobalContext';
 
 import { ItemDataTypes } from '../templates/itemTypes';
@@ -19,8 +19,8 @@ import {
 function AddItem(props) {
     const [state , , api] = useContext(GlobalContext);
     const [valueToAdd, setValueToAdd] = useState('');
-    const [selectedItemType, setSelectedItemType] = useState(props.itemType ? props.itemType.name : '');
-
+    const [selectedItemType, setSelectedItemType] = useState(props.itemType ? props.itemType.id : '');
+    
     async function closeMe() {
         if (props.closeMe) {
             props.closeMe(selectedItemType);
@@ -36,7 +36,7 @@ function AddItem(props) {
 
     function itemFormChooser() {
         const itemTypes = state.itemTypes;
-        const itemTypeSelected = itemTypes.find(({name}) => name === selectedItemType);
+        const itemTypeSelected = itemTypes.find(({id}) => id === selectedItemType);
         const returnArray = [];
         if(itemTypeSelected) {
             switch(itemTypeSelected.dataType_1) {
@@ -71,12 +71,6 @@ function AddItem(props) {
             );
         }
 
-    // returnArray.push(
-    //     <Label color='purple' key='selectedItemType'>
-    //         {selectedItemType}
-    //     </Label>
-    // );
-
     return returnArray;
     }
 
@@ -95,7 +89,7 @@ function AddItem(props) {
                         return (
                             <option
                                 value={itemType.name}
-                                key={itemType.name}
+                                key={itemType.id}
                             />
                         );
                     })}
@@ -108,20 +102,20 @@ function AddItem(props) {
             return {
                 key: itemType.name,
                 text: itemType.name,
-                value: itemType.name,
+                value: itemType.id,
             };
         });
 
         return (
             <Form.Field>
-                <Select
-                    placeholder='Select a type to track...'
-                    options={pulldownOptions}
-                    defaultValue={selectedItemType}
-                    onChange={(e, data)=>{
-                        setSelectedItemType(data.value)
-                    }}
-                />
+                    <Select
+                        placeholder='Select a type to track...'
+                        options={pulldownOptions}
+                        value={selectedItemType}
+                        onChange={(e, data)=>{
+                            setSelectedItemType(data.value)
+                        }}
+                    />
             </Form.Field>
         );
 

@@ -8,7 +8,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { createContext } from 'react';
 import reducer from '../store/reducer';
-import { fetchItems, deleteItem, addItem, addItemType, fetchItemTypes, deleteItemType } from '../api/restApi';
+import { fetchItems, deleteItem, addItemType, fetchItemTypes, deleteItemType, AddItemInput } from '../api/restApi';
 
 const GlobalContext = createContext();
 export default GlobalContext;
@@ -33,7 +33,6 @@ export function withGlobalContext(Component) {
 
         
         const addItemTypeFromApp = (name, dataType_1, dataName_1, dataType_2, dataName_2, successCallback) => {
-            // addItem(value, itemType, date, (result) => callReducer({type: 'DATA', data: result}));
             addItemType(name, dataType_1, dataName_1, dataType_2, dataName_2,
                 (result) => {
                     successCallback(result);
@@ -42,9 +41,10 @@ export function withGlobalContext(Component) {
             );
         };
 
-        const addItemFromApp = (value, itemType, addSuccessCallback) => {
-            // addItem(value, itemType, date, (result) => callReducer({type: 'DATA', data: result}));
-            addItem(value, itemType, (result) => {
+        const addItemFromApp = (value, typeId, addSuccessCallback) => {
+            const addItem = new AddItemInput('taskCompleted', value, new Date().toISOString().slice(0,10), typeId, null);
+
+            addItem.save((result) => {
                     fetchItemsFromApp();
                     addSuccessCallback();
                 }
@@ -65,6 +65,10 @@ export function withGlobalContext(Component) {
                 }
             );
         };
+
+        const getItemTypeName = (itemTypeId) => {
+            return state.itemTypes.find(({id}) => id === itemTypeId).name;
+        }
         
     
         const api = {
@@ -73,6 +77,7 @@ export function withGlobalContext(Component) {
             deleteItemFromApp,
             addItemTypeFromApp,
             deleteItemTypeFromApp,
+            getItemTypeName,
         }
 
         return (

@@ -17,15 +17,14 @@ function AddMultiple() {
     function closeItem(itemId) {
         setAddIds(closedAddIds.concat(itemId));
     }
-
     return (
         <Container text>
             <Segment.Group>
                 <Segment>
                     {state.itemTypes.map((itemType) => {
-                        if(!closedAddIds.includes(itemType.name)) {
+                        if(!closedAddIds.includes(itemType.id)) {
                             // debug({item});
-                            return(<AddItem key={itemType.name} itemType={itemType} closeMe={closeItem}/>);
+                            return(<AddItem key={itemType.id} itemType={itemType} closeMe={closeItem}/>);
                         }
                         return null;
                     })}
