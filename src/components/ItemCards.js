@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import GlobalContext from '../store/GlobalContext';
-import { debug } from '../utils';
+
 
 import {
     Container,
@@ -36,6 +36,8 @@ function ItemCard() {
             </Table>            
         );
     }
+
+
     return (
         <>
             <Container text>

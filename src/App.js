@@ -1,15 +1,13 @@
 import React from 'react';
 import { withGlobalContext } from './store/GlobalContext';
 
-import ItemCards from './components/ItemCards';
-import AddItem from './components/AddItem';
+import Page1 from './components/Page1';
 
 function App() {
-    
+
     return (
         <>
-            <AddItem />
-            <ItemCards />
+            <Page1 />
         </>
     );
 }

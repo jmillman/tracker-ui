@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
 import GlobalContext from '../store/GlobalContext';
-import { debug } from '../utils';
 
-import { itemTypes, ItemDataTypes } from '../templates/itemTypes';
+import { ItemDataTypes } from '../templates/itemTypes';
 
 import {
     Button,
@@ -17,38 +16,42 @@ import {
     // I have two different types of inputs, one you can type in, which is good for long lists
   const useTypingSelectionBox = false;
 
-function AddItem() {
-    const [ , , api] = useContext(GlobalContext);
+function AddItem(props) {
+    const [state , , api] = useContext(GlobalContext);
     const [valueToAdd, setValueToAdd] = useState('');
-    const [selectedItemType, setSelectedItemType] = useState('');
+    const [selectedItemType, setSelectedItemType] = useState(props.itemType ? props.itemType.name : '');
 
-
-    function addSuccessCallback(input) {
-        setSelectedItemType('');
-        setValueToAdd('');
+    async function closeMe() {
+        if (props.closeMe) {
+            props.closeMe(selectedItemType);
+        } else {
+            setSelectedItemType('');
+            setValueToAdd('');
+        }
     }
 
     function handleClickCreate() {
-        api.addItemFromApp(valueToAdd, selectedItemType, addSuccessCallback);
+        api.addItemFromApp(valueToAdd, selectedItemType, closeMe);
     }
 
     function itemFormChooser() {
+        const itemTypes = state.itemTypes;
         const itemTypeSelected = itemTypes.find(({name}) => name === selectedItemType);
         const returnArray = [];
         if(itemTypeSelected) {
-            switch(itemTypeSelected.itemDataType) {
+            switch(itemTypeSelected.dataType_1) {
                 case ItemDataTypes.NUMBER:
                     returnArray.push (
                         <Form.Field key={'EventType'}>
                             <input
-                                placeholder={itemTypeSelected.dataTypeName}
+                                placeholder={itemTypeSelected.dataName_1}
                                 value={valueToAdd}
                                 onChange={(e) => setValueToAdd(e.target.value)}
                             />
                         </Form.Field>
                     );
                     break;
-                case ItemDataTypes.EVENT_HAPPENED:
+                case ItemDataTypes.EVENT:
                 default:
                         break;
             }
@@ -56,6 +59,7 @@ function AddItem() {
             returnArray.push(
                 <Form.Field key={'AddButton'}>
                     <Button positive onClick={handleClickCreate}>Add</Button>
+                    <Button negative onClick={closeMe}>Cancel</Button>
                 </Form.Field>
             );
         }
@@ -66,10 +70,18 @@ function AddItem() {
                 </Label>
             );
         }
-        return returnArray;
+
+    // returnArray.push(
+    //     <Label color='purple' key='selectedItemType'>
+    //         {selectedItemType}
+    //     </Label>
+    // );
+
+    return returnArray;
     }
 
     function getSelectTypeChooser() {
+        const itemTypes = state.itemTypes;
         if( useTypingSelectionBox ) {
             return (
                 <Form.Field>
@@ -105,8 +117,8 @@ function AddItem() {
                 <Select
                     placeholder='Select a type to track...'
                     options={pulldownOptions}
+                    defaultValue={selectedItemType}
                     onChange={(e, data)=>{
-                        debug({e, data});
                         setSelectedItemType(data.value)
                     }}
                 />
@@ -124,7 +136,7 @@ function AddItem() {
                         <Form>
                             {getSelectTypeChooser()}
                             {itemFormChooser()}
-                    </Form>
+                        </Form>
                     </Segment>
                 </Segment.Group>
             </Container>
