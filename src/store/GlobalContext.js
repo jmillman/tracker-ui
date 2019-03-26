@@ -15,7 +15,7 @@ export default GlobalContext;
 
 export function withGlobalContext(Component) {
     return function contextComponent(props) {
-        const [state, callReducer] = useReducer(reducer, {data: [], taskLists: []});
+        const [state, callReducer] = useReducer(reducer, {data: [], taskLists: [], itemTypes: []});
 
         const fetchItemsFromApp = () => {
             fetchItems((result) => {
