@@ -15,6 +15,7 @@ export class AddItemInput{
         bodyFormData.set('value', this.value);
         bodyFormData.set('typeId', this.typeId);
         bodyFormData.set('recordType', this.recordType);
+        bodyFormData.set('notes', this.notes);
         bodyFormData.set('date', this.date);
         const response = await axios.post(url, bodyFormData);
         if(callback){

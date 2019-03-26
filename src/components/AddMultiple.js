@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import AddItem from './AddItem';
-import GlobalContext from '../store/GlobalContext';
 
 
 import {
@@ -9,9 +8,8 @@ import {
   } from 'semantic-ui-react';
 
   
-function AddMultiple() {
+function AddMultiple(props) {
     const [closedAddIds, setAddIds] = useState([]);
-    const [state , ,] = useContext(GlobalContext);
 
     // keep and array of the closedItems, and if they are closed, don't render
     function closeItem(itemId) {
@@ -20,10 +18,12 @@ function AddMultiple() {
     return (
         <Container text>
             <Segment.Group>
+                <Segment textAlign='center'>
+                    {props.title}
+                </Segment>
                 <Segment>
-                    {state.itemTypes.map((itemType) => {
+                    {props.itemTypes.map((itemType) => {
                         if(!closedAddIds.includes(itemType.id)) {
-                            // debug({item});
                             return(<AddItem key={itemType.id} itemType={itemType} closeMe={closeItem}/>);
                         }
                         return null;

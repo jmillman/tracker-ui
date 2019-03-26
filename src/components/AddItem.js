@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState } from 'react';
 import GlobalContext from '../store/GlobalContext';
 
 import { ItemDataTypes } from '../templates/itemTypes';

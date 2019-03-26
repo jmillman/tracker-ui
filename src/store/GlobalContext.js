@@ -15,10 +15,15 @@ export default GlobalContext;
 
 export function withGlobalContext(Component) {
     return function contextComponent(props) {
-        const [state, callReducer] = useReducer(reducer, {data: []});
+        const [state, callReducer] = useReducer(reducer, {data: [], taskLists: []});
 
         const fetchItemsFromApp = () => {
-            fetchItems((result) => callReducer({type: 'DATA', data: result}));
+            fetchItems((result) => {
+                const taskCompleted = result.filter((item)=>item.recordType === "taskCompleted");
+                const taskLists = result.filter((item)=>item.recordType === "taskList");
+                callReducer({type: 'taskLists', data: taskLists})
+                callReducer({type: 'taskCompleted', data: taskCompleted})
+            });
         };
     
         const fetchItemTypesFromApp = () => {
@@ -41,6 +46,16 @@ export function withGlobalContext(Component) {
             );
         };
 
+        ///
+        const createListFromApp = (name, checkboxValues, callback) => {
+            const addItem = new AddItemInput('taskList', name, new Date().toISOString().slice(0,10), null, checkboxValues);
+            addItem.save((result) => {
+                fetchItemsFromApp();
+                callback(result);
+            });
+        };
+    
+        ///
         const addItemFromApp = (value, typeId, addSuccessCallback) => {
             const addItem = new AddItemInput('taskCompleted', value, new Date().toISOString().slice(0,10), typeId, null);
 
@@ -78,6 +93,7 @@ export function withGlobalContext(Component) {
             addItemTypeFromApp,
             deleteItemTypeFromApp,
             getItemTypeName,
+            createListFromApp,
         }
 
         return (
