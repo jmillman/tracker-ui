@@ -125,14 +125,10 @@ function AddItem(props) {
     return (
         <>
             <Container text>
-                <Segment.Group>
-                    <Segment>
-                        <Form>
-                            {getSelectTypeChooser()}
-                            {itemFormChooser()}
-                        </Form>
-                    </Segment>
-                </Segment.Group>
+                <Form>
+                    {getSelectTypeChooser()}
+                    {itemFormChooser()}
+                </Form>
             </Container>
         </>
     );

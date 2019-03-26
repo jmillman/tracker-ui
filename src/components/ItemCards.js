@@ -1,6 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import GlobalContext from '../store/GlobalContext';
-
+import {
+    DateInput,
+    TimeInput,
+    DateTimeInput,
+    DatesRangeInput
+  } from 'semantic-ui-calendar-react';
 
 import {
     Container,
@@ -11,7 +16,12 @@ import {
 
 function ItemCard() {
     const [state, , api] = useContext(GlobalContext);
+    const [date, setDate] = useState(new Date().toISOString().slice(0,10));
 
+    function handleChange(event, {name, value}) {
+        setDate(value);
+    }
+    
     function handleClickDelete(id) {
         api.deleteItemFromApp(id);
     }
@@ -57,6 +67,15 @@ function ItemCard() {
                             </Segment>
                         );
                     })}
+                    <Segment>
+                        <DateInput
+                            name="date"
+                            placeholder="Date"
+                            value={date}
+                            iconPosition="left"
+                            onChange={handleChange}
+                        />
+                    </Segment>
                 </Segment.Group>
             </Container>
         </>
