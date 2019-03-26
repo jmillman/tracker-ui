@@ -1,7 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import ItemCards from './ItemCards';
-import AddMultiple from './AddMultiple';
-import GlobalContext from '../store/GlobalContext';
 import TasksPage from './TasksPage';
 import SettingsPage from './SettingsPage';
 
@@ -19,7 +17,6 @@ const tabs = {
 
 function Page1() {
     const [ selectedTab, setSelectedTab ] = useState(tabs.COMPLETE_TASKS);
-    const [state , ,] = useContext(GlobalContext);
 
     function getTab(tabName) {
         return(<Menu.Item key={tabName} name={tabName} active={selectedTab === tabName} onClick={()=> setSelectedTab(tabName)} />);

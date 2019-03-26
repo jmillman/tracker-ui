@@ -1,11 +1,6 @@
 import React, { useContext, useState } from 'react';
 import GlobalContext from '../store/GlobalContext';
-import {
-    DateInput,
-    TimeInput,
-    DateTimeInput,
-    DatesRangeInput
-  } from 'semantic-ui-calendar-react';
+import { DateInput } from 'semantic-ui-calendar-react';
 
 import {
     Container,

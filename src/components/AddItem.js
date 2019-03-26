@@ -8,7 +8,6 @@ import {
     Container,
     Form,
     Input,
-    Segment,
     Select,
     Label,
   } from 'semantic-ui-react';

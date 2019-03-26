@@ -1,6 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
-import AddItem from './AddItem';
-import GlobalContext from '../store/GlobalContext';
+import React from 'react';
 import AddItemType from './AddItemType';
 import ItemTypesList from './ItemTypesList';
 
@@ -8,16 +6,10 @@ import ItemTypesList from './ItemTypesList';
 import {
     Container,
     Segment,
-    Message,
-    Checkbox,
-    Form,
-    Button
   } from 'semantic-ui-react';
 
   
 function ItemTypePage() {
-    const [state , , api] = useContext(GlobalContext);
-
     return (
         <Container text>
             <Segment.Group>

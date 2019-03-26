@@ -1,6 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
-import GlobalContext from '../store/GlobalContext';
-import AddItem from './AddItem';
+import React from 'react';
 import CreateTaskList from './CreateTaskList';
 import ItemTypePage from './ItemTypePage';
 
@@ -12,7 +10,6 @@ import {
 
 
 function SettingsPage() {
-    const [state , , api] = useContext(GlobalContext);
     const panes = [
         { menuItem: 'Task Lists', render: () => <Tab.Pane><CreateTaskList /></Tab.Pane> },
         { menuItem: 'Item Types', render: () => <Tab.Pane><ItemTypePage /></Tab.Pane> },

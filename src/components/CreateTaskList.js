@@ -1,12 +1,10 @@
 import React, { useState, useContext, useRef } from 'react';
-import AddItem from './AddItem';
 import GlobalContext from '../store/GlobalContext';
 
 
 import {
     Container,
     Segment,
-    Message,
     Checkbox,
     Form,
     Button
