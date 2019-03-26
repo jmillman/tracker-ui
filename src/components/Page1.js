@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ItemCards from './ItemCards';
+import CompletedTasksList from './CompletedTasksList';
 import TasksPage from './TasksPage';
 import SettingsPage from './SettingsPage';
 
@@ -16,7 +16,7 @@ const tabs = {
 };
 
 function Page1() {
-    const [ selectedTab, setSelectedTab ] = useState(tabs.COMPLETE_TASKS);
+    const [ selectedTab, setSelectedTab ] = useState(tabs.LIST);
 
     function getTab(tabName) {
         return(<Menu.Item key={tabName} name={tabName} active={selectedTab === tabName} onClick={()=> setSelectedTab(tabName)} />);
@@ -25,7 +25,7 @@ function Page1() {
     function getContent() {
         switch(selectedTab) {
             case tabs.LIST:
-                return(<ItemCards />);
+                return(<CompletedTasksList />);
             case tabs.COMPLETE_TASKS:
                 return(<TasksPage />);
             case tabs.SETTINGS_PAGE:

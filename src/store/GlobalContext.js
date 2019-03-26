@@ -46,7 +46,6 @@ export function withGlobalContext(Component) {
             );
         };
 
-        ///
         const createListFromApp = (name, checkboxValues, callback) => {
             const addItem = new AddItemInput('taskList', name, new Date().toISOString().slice(0,10), null, checkboxValues);
             addItem.save((result) => {
@@ -55,7 +54,6 @@ export function withGlobalContext(Component) {
             });
         };
     
-        ///
         const addItemFromApp = (value, typeId, addSuccessCallback) => {
             const addItem = new AddItemInput('taskCompleted', value, new Date().toISOString().slice(0,10), typeId, null);
 
@@ -82,7 +80,8 @@ export function withGlobalContext(Component) {
         };
 
         const getItemTypeName = (itemTypeId) => {
-            return state.itemTypes.find(({id}) => id === itemTypeId).name;
+            const match = state.itemTypes.find(({id}) => id === itemTypeId);
+            return match ? match.name : '';
         }
         
     

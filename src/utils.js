@@ -7,3 +7,14 @@ export function debug(field) {
         console.error("DEBUG>>  " +variableName + "=%O", value);    
     }
 }
+
+export function dateDBToCalendar(databaseDate) {
+    const [year, month, day] = databaseDate.split('-');
+    return `${day}-${month}-${year}`
+}
+
+export function dateCalendarToDB(calendarDate) {
+    const [day, month, year] = calendarDate.split('-');
+    return `${year}-${month}-${day}`
+}
+
