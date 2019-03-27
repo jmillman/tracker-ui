@@ -8,9 +8,14 @@ import {
   } from 'semantic-ui-react';
 
 function CompletedItem(props) {
-    const [, , api] = useContext(GlobalContext);
+    const [state, , api] = useContext(GlobalContext);
     function handleClickDelete(id) {
         api.deleteItemFromApp(id);
+    }
+
+    function getItemTypeName(item) {
+        const itemTypeName = state.itemTypes[item.typeId];
+        return itemTypeName ? itemTypeName.dataName_1: item.typeId;
     }
 
     function getItemDisplay(item) {
@@ -19,7 +24,7 @@ function CompletedItem(props) {
                 <Table.Body key={`ITEM_${item.id}`}>
                     <Table.Row>
                         <Table.Cell width={2}>Name</Table.Cell>
-                        <Table.Cell>{api.getItemTypeName(item.typeId)}</Table.Cell>
+                        <Table.Cell>{getItemTypeName(item)}</Table.Cell>
                     </Table.Row>
                     {item.value ? 
                         <Table.Row>

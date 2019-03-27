@@ -20,7 +20,7 @@ function TasksPage() {
     state.taskLists.forEach(taskList => {
         const tabName = `${taskList.value} Task List`;
         const itemsInList = taskList.notes.split(',');
-        const itemTypes = state.itemTypes.filter((taskList)=>{return itemsInList.includes(taskList.id)});
+        const itemTypes = itemsInList.reduce((result, key) => ({ ...result, [key]: state.itemTypes[key] }), {});
         panes.push({ menuItem: tabName, render: () => <Tab.Pane><AddMultiple itemTypes={itemTypes} title={tabName}/></Tab.Pane> });
     });
 

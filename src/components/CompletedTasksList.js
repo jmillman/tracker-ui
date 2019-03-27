@@ -8,6 +8,7 @@ import { dateCalendarToDB } from '../utils';
 import {
     Container,
     Segment,
+    Input,
   } from 'semantic-ui-react';
 
 const itemsFilter = new ItemsFilter();
@@ -15,8 +16,14 @@ const itemsFilter = new ItemsFilter();
 function CompletedTasksList() {
     const [state, ,] = useContext(GlobalContext);
     const [date, setDate] = useState('');
-
+    const [typeName, setTypeName] = useState('');
         
+    function handleSetTypeName(value) {
+        setTypeName(value);
+        itemsFilter.setTypeName(value);
+    }
+
+
     function handleChange(event, {name, value}) {
         itemsFilter.setDate(dateCalendarToDB(value));
         setDate(value);
@@ -30,6 +37,14 @@ function CompletedTasksList() {
         <>
             <Container text>
                 <Segment.Group>
+                    <Segment>
+                            <Input
+                                name="typeTypeName"
+                                placeholder="Type..."
+                                value={typeName}
+                                onChange={(e) => handleSetTypeName(e.target.value)}
+                            />
+                    </Segment>
                     <Segment>
                             <DateInput
                                 name="date"

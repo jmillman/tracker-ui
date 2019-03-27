@@ -6,9 +6,15 @@ export default function(state, action) {
             return retState;
         case 'taskLists':
             retState =  Object.assign({}, state, {taskLists: action.data});
+            console.log('taskLists');
             return retState;
         case 'ITEMTYPES':
-            retState =  Object.assign({}, state, {itemTypes: action.itemTypes});
+            const itemTypes = action.itemTypes.reduce((accum, current) => {
+                accum[current.id] = current;
+                return accum;
+            }, {});
+            console.log('itemtypes');
+            retState =  Object.assign({}, state, {itemTypes: itemTypes});
             return retState;
         case 'REPORT':
             console.error('REPORT=%O', action);

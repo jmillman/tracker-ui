@@ -11,6 +11,7 @@ import {
     Select,
     Label,
   } from 'semantic-ui-react';
+import { debug } from 'util';
 
     // I have two different types of inputs, one you can type in, which is good for long lists
   const useTypingSelectionBox = false;
@@ -35,7 +36,7 @@ function AddItem(props) {
 
     function itemFormChooser() {
         const itemTypes = state.itemTypes;
-        const itemTypeSelected = itemTypes.find(({id}) => id === selectedItemType);
+        const itemTypeSelected = itemTypes[selectedItemType];
         const returnArray = [];
         if(itemTypeSelected) {
             switch(itemTypeSelected.dataType_1) {
@@ -97,11 +98,11 @@ function AddItem(props) {
             );
         }
 
-        const pulldownOptions = itemTypes.map((itemType) => {
+        const pulldownOptions = Object.keys(itemTypes).map((itemTypeId) => {
             return {
-                key: itemType.name,
-                text: itemType.name,
-                value: itemType.id,
+                key: itemTypes[itemTypeId].name,
+                text: itemTypes[itemTypeId].name,
+                value: itemTypes[itemTypeId].id,
             };
         });
 

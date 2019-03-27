@@ -77,13 +77,7 @@ export function withGlobalContext(Component) {
                 fetchItemTypesFromApp();
                 }
             );
-        };
-
-        const getItemTypeName = (itemTypeId) => {
-            const match = state.itemTypes.find(({id}) => id === itemTypeId);
-            return match ? match.name : '';
-        }
-        
+        };        
     
         const api = {
             addItemFromApp,
@@ -91,7 +85,6 @@ export function withGlobalContext(Component) {
             deleteItemFromApp,
             addItemTypeFromApp,
             deleteItemTypeFromApp,
-            getItemTypeName,
             createListFromApp,
         }
 

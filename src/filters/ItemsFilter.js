@@ -1,10 +1,11 @@
+
 export class ItemsFilter {
     setName(name) {
         this.name = name;
     }
     
-    setDate(date) {
-        this.date = date;
+    setTypeName(name) {
+        this.name = name;
     }
 
     getDate() {
@@ -20,8 +21,15 @@ export class ItemsFilter {
     }
 
     filter(items) {
+        let retItems = items;
+        if(this.name) {
+            retItems = retItems.filter(item=> {
+                return true;
+                // getItemTypeName(items, item.typeId).contains(this.name)}
+            });
+        }
         if(this.date) {
-            return items.filter(item=> item.date === this.date);
+            retItems = retItems.filter(item=> item.date === this.date);
         }
         return items;
     }    
