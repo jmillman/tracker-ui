@@ -1,6 +1,7 @@
 import React from 'react';
 import CreateTaskList from './CreateTaskList';
 import ItemTypePage from './ItemTypePage';
+import CreateViewsPage from './CreateViewsPage';
 
 import {
     Container,
@@ -13,6 +14,7 @@ function SettingsPage() {
     const panes = [
         { menuItem: 'Create Task Lists', render: () => <Tab.Pane><CreateTaskList /></Tab.Pane> },
         { menuItem: 'Item Types', render: () => <Tab.Pane><ItemTypePage /></Tab.Pane> },
+        { menuItem: 'Create Views', render: () => <Tab.Pane><CreateViewsPage /></Tab.Pane> },
       ];
     
     return (

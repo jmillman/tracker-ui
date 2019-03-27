@@ -15,12 +15,14 @@ export default GlobalContext;
 
 export function withGlobalContext(Component) {
     return function contextComponent(props) {
-        const [state, callReducer] = useReducer(reducer, {data: [], taskLists: [], itemTypes: []});
+        const [state, callReducer] = useReducer(reducer, {data: [], taskLists: [], itemTypes: [], views: []});
 
         const fetchItemsFromApp = () => {
             fetchItems((result) => {
                 const taskCompleted = result.filter((item)=>item.recordType === "taskCompleted");
                 const taskLists = result.filter((item)=>item.recordType === "taskList");
+                const views = result.filter((item)=>item.recordType === "view");
+                callReducer({type: 'views', data: views})
                 callReducer({type: 'taskLists', data: taskLists})
                 callReducer({type: 'taskCompleted', data: taskCompleted})
             });
@@ -36,6 +38,7 @@ export function withGlobalContext(Component) {
             fetchItemTypesFromApp();
         }, []);
 
+        const currentDate = new Date().toISOString().slice(0,10);
         
         const addItemTypeFromApp = (name, dataType_1, dataName_1, dataType_2, dataName_2, successCallback) => {
             addItemType(name, dataType_1, dataName_1, dataType_2, dataName_2,
@@ -47,7 +50,7 @@ export function withGlobalContext(Component) {
         };
 
         const createListFromApp = (name, checkboxValues, callback) => {
-            const addItem = new AddItemInput('taskList', name, new Date().toISOString().slice(0,10), null, checkboxValues);
+            const addItem = new AddItemInput('taskList', name, currentDate, null, checkboxValues);
             addItem.save((result) => {
                 fetchItemsFromApp();
                 callback(result);
@@ -55,11 +58,21 @@ export function withGlobalContext(Component) {
         };
     
         const addItemFromApp = (value, typeId, addSuccessCallback) => {
-            const addItem = new AddItemInput('taskCompleted', value, new Date().toISOString().slice(0,10), typeId, null);
+            const addItem = new AddItemInput('taskCompleted', value, currentDate, typeId, null);
 
             addItem.save((result) => {
                     fetchItemsFromApp();
                     addSuccessCallback();
+                }
+            );
+        };
+    
+        const addViewFromApp = (name, viewJson, callback) => {
+            const addItem = new AddItemInput('view', name, currentDate, null, viewJson);
+
+            addItem.save((result) => {
+                    fetchItemsFromApp();
+                    callback(result);
                 }
             );
         };
@@ -86,6 +99,7 @@ export function withGlobalContext(Component) {
             addItemTypeFromApp,
             deleteItemTypeFromApp,
             createListFromApp,
+            addViewFromApp,
         }
 
         return (

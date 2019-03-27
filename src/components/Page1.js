@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CompletedTasksList from './CompletedTasksList';
+import ViewsPage from './ViewsPage';
 import TasksPage from './TasksPage';
 import SettingsPage from './SettingsPage';
 
@@ -10,13 +10,13 @@ import {
   } from 'semantic-ui-react';
 
 const tabs = {
-    LIST: 'View',
+    VIEWS_PAGE: 'View',
     COMPLETE_TASKS: 'Do',
     SETTINGS_PAGE: 'Settings',
 };
 
 function Page1() {
-    const [ selectedTab, setSelectedTab ] = useState(tabs.LIST);
+    const [ selectedTab, setSelectedTab ] = useState(tabs.VIEWS_PAGE);
 
     function getTab(tabName) {
         return(<Menu.Item key={tabName} name={tabName} active={selectedTab === tabName} onClick={()=> setSelectedTab(tabName)} />);
@@ -24,8 +24,8 @@ function Page1() {
 
     function getContent() {
         switch(selectedTab) {
-            case tabs.LIST:
-                return(<CompletedTasksList />);
+            case tabs.VIEWS_PAGE:
+                return(<ViewsPage />);
             case tabs.COMPLETE_TASKS:
                 return(<TasksPage />);
             case tabs.SETTINGS_PAGE:
@@ -41,7 +41,7 @@ function Page1() {
                 <Grid.Column width={4}>
                 <Menu fluid vertical tabular>
                     {getTab(tabs.COMPLETE_TASKS)}
-                    {getTab(tabs.LIST)}
+                    {getTab(tabs.VIEWS_PAGE)}
                     {getTab(tabs.SETTINGS_PAGE)}
                 </Menu>
                 </Grid.Column>

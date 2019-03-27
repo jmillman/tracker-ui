@@ -1,3 +1,4 @@
+import { dateDBToCalendar } from '../utils';
 
 export class ItemsFilter {
 
@@ -14,6 +15,30 @@ export class ItemsFilter {
     
     setDateEnd(date) {
         this.dateEnd = date;
+    }
+
+    getDateForCalendarControl() {
+        return `${dateDBToCalendar(this.dateStart)} - ${dateDBToCalendar(this.dateEnd)}`;
+    }
+
+    hydrateFromJson(jsonString) {
+        const selectedView = JSON.parse(jsonString);
+        this.setDateStart(selectedView.dateStart);
+        this.setDateEnd(selectedView.dateEnd);
+        this.setItemTypeIds(selectedView.itemTypeIds || []);
+    }
+
+    getObject() {
+        return {
+            itemTypeIds: this.itemTypeIds,
+            name: this.name,
+            dateStart: this.dateStart,
+            dateEnd: this.dateEnd,
+        }
+    }
+
+    getJson() {
+        return JSON.stringify(this.getObject());
     }
 
     filter(items) {

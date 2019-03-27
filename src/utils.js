@@ -9,8 +9,11 @@ export function debug(field) {
 }
 
 export function dateDBToCalendar(databaseDate) {
-    const [year, month, day] = databaseDate.split('-');
-    return `${day}-${month}-${year}`
+    if(databaseDate) {
+        const [year, month, day] = databaseDate.split('-');
+        return `${day}-${month}-${year}`
+    }
+    return '';
 }
 
 export function dateCalendarToDB(calendarDate) {
