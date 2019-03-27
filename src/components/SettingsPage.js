@@ -16,7 +16,7 @@ function SettingsPage() {
       ];
     
     return (
-        <Container text>
+        <Container>
             <Segment.Group>
                 <Segment>
                     <Tab panes={panes} />

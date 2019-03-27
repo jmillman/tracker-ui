@@ -25,7 +25,7 @@ function TasksPage() {
     });
 
     return (
-        <Container text>
+        <Container>
             <Segment.Group>
                 <Segment>
                     <Tab panes={panes} />

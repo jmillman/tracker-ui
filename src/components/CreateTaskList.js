@@ -47,7 +47,7 @@ function CreateTaskList() {
 
     return (
 
-        <Container text>
+        <Container>
             <Form>
                 <Segment.Group>
                     <Segment>

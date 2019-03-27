@@ -35,7 +35,7 @@ function CompletedTasksList() {
     
     return (
         <>
-            <Container text>
+            <Container>
                 <Segment.Group>
                     <Segment>
                             <Input

@@ -18,7 +18,7 @@ function AddMultiple(props) {
         setAddIds(closedAddIds.concat(itemId));
     }
     return (
-        <Container text>
+        <Container>
             <Segment.Group>
                 <Segment textAlign='center'>
                     {props.title}

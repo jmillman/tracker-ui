@@ -11,7 +11,7 @@ import {
   
 function ItemTypePage() {
     return (
-        <Container text>
+        <Container>
             <Segment.Group>
                 <Segment>
                     <AddItemType />

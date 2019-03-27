@@ -46,7 +46,7 @@ function ItemTypesList() {
 
     return (
         <>
-            <Container text>
+            <Container>
                 <Segment.Group>
                     {Object.keys(state.itemTypes).map((itemTypeId) => {
                         const itemType = state.itemTypes[itemTypeId];

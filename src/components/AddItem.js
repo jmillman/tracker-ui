@@ -5,7 +5,6 @@ import { ItemDataTypes } from '../templates/itemTypes';
 
 import {
     Button,
-    Container,
     Form,
     Input,
     Select,
@@ -123,12 +122,10 @@ function AddItem(props) {
 
     return (
         <>
-            <Container text>
-                <Form>
-                    {getSelectTypeChooser()}
-                    {itemFormChooser()}
-                </Form>
-            </Container>
+            <Form>
+                {getSelectTypeChooser()}
+                {itemFormChooser()}
+            </Form>
         </>
     );
 }

@@ -118,7 +118,7 @@ function AddItemType(props) {
 
     return (
         <>
-            <Container text>
+            <Container>
                 <Segment.Group>
                     <Segment>
                         <Form error={formStatus && formStatus.status === "error"}>
