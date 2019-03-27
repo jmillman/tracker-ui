@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import GlobalContext from '../store/GlobalContext';
+// import { debug } from '../utils';
 import {
-    Segment,
     Table,
     Icon,
     Button,
@@ -14,8 +14,11 @@ function CompletedItem(props) {
     }
 
     function getItemTypeName(item) {
-        const itemTypeName = state.itemTypes[item.typeId];
-        return itemTypeName ? itemTypeName.dataName_1: item.typeId;
+        if(state.itemTypes) {
+            const itemTypeName = state.itemTypes[item.typeId];
+            return itemTypeName ? itemTypeName.name: item.typeId;
+        }
+        return item.typeId;
     }
 
     function getItemDisplay(item) {
@@ -56,10 +59,9 @@ function CompletedItem(props) {
 
     const item = props.item;
     return(
-        <Segment key={item.id}>
+        <>
             {getItemDisplay(item)}
-        </Segment>
-
+        </>
     );
 }
 

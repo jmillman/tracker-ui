@@ -11,7 +11,7 @@ import {
 
 function SettingsPage() {
     const panes = [
-        { menuItem: 'Task Lists', render: () => <Tab.Pane><CreateTaskList /></Tab.Pane> },
+        { menuItem: 'Create Task Lists', render: () => <Tab.Pane><CreateTaskList /></Tab.Pane> },
         { menuItem: 'Item Types', render: () => <Tab.Pane><ItemTypePage /></Tab.Pane> },
       ];
     

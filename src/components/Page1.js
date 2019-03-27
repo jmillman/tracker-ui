@@ -10,8 +10,8 @@ import {
   } from 'semantic-ui-react';
 
 const tabs = {
-    LIST: 'View Completed Tasks',
-    COMPLETE_TASKS: 'Complete Tasks',
+    LIST: 'View',
+    COMPLETE_TASKS: 'Do',
     SETTINGS_PAGE: 'Settings',
 };
 
@@ -40,8 +40,8 @@ function Page1() {
             <Grid>
                 <Grid.Column width={4}>
                 <Menu fluid vertical tabular>
-                    {getTab(tabs.LIST)}
                     {getTab(tabs.COMPLETE_TASKS)}
+                    {getTab(tabs.LIST)}
                     {getTab(tabs.SETTINGS_PAGE)}
                 </Menu>
                 </Grid.Column>

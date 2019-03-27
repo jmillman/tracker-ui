@@ -33,12 +33,6 @@ function CreateTaskList() {
     
     async function callback(result) {
         console.error('CreateTaskList callback =%O', checkboxValues);
-        // if (props.closeMe) {
-        //     props.closeMe(selectedItemType);
-        // } else {
-        //     setSelectedItemType('');
-        //     setValueToAdd('');
-        // }
     }
 
     function handleClickCreate() {

@@ -1,17 +1,13 @@
 
 export class ItemsFilter {
+
+    setItemTypeIds(arrayOfItemTypeIds) {
+        this.itemTypeIds = arrayOfItemTypeIds;
+    }
     setName(name) {
         this.name = name;
     }
     
-    setTypeName(typeName) {
-        this.typeName = typeName;
-    }
-
-    setDate(date) {
-        this.date = date;
-    }
-
     setDateStart(date) {
         this.dateStart = date;
     }
@@ -22,17 +18,17 @@ export class ItemsFilter {
 
     filter(items) {
         let retItems = items;
-        if(this.name) {
-            retItems = retItems.filter(item=> {
-                return true;
-                // return Object.keys()
-                // getItemTypeName(items, item.typeId).contains(this.name)}
-            });
-            return retItems;
+        if(this.itemTypeIds  && this.itemTypeIds.length) {
+            retItems = retItems.filter(item=> this.itemTypeIds.includes(item.typeId));
         }
-        if(this.date) {
-            retItems = retItems.filter(item=> item.date === this.date);
+
+        if(this.dateStart && this.dateEnd) {
+            retItems = retItems.filter(item=> item.date >= this.dateStart && item.date <= this.dateEnd);
         }
+        else if(this.dateStart) {
+            retItems = retItems.filter(item=> item.date >= this.dateStart);
+        }
+
         return retItems;
     }    
 }
