@@ -62,7 +62,8 @@ function CreateTaskList() {
                             </Form.Field>
                     </Segment>
                     <Segment>
-                        {state.itemTypes && state.itemTypes.map((itemType) => {
+                        {Object.keys(state.itemTypes).map((itemTypeId) => {
+                            const itemType = state.itemTypes[itemTypeId];
                             return(
                                 <Segment key={itemType.id}>
                                     <Checkbox

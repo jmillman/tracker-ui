@@ -11,7 +11,6 @@ import {
     Select,
     Label,
   } from 'semantic-ui-react';
-import { debug } from 'util';
 
     // I have two different types of inputs, one you can type in, which is good for long lists
   const useTypingSelectionBox = false;

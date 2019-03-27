@@ -23,21 +23,21 @@ function ItemTypesList() {
         api.deleteItemTypeFromApp(id, callback);
     }
 
-    function getItemTypeDisplay(item) {
+    function getItemTypeDisplay(itemType) {
         return (
-            <Table definition key={item.id}>
+            <Table definition>
                 <Table.Body>
                     <Table.Row>
                     <Table.Cell width={2}>Name</Table.Cell>
-                    <Table.Cell>{item.name}</Table.Cell>
+                    <Table.Cell>{itemType.name}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                     <Table.Cell>dataType_1</Table.Cell>
-                    <Table.Cell>{item.dataType_1}</Table.Cell>
+                    <Table.Cell>{itemType.dataType_1}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                     <Table.Cell>dataName_1</Table.Cell>
-                    <Table.Cell>{item.dataName_1}</Table.Cell>
+                    <Table.Cell>{itemType.dataName_1}</Table.Cell>
                     </Table.Row>
                 </Table.Body>
             </Table>            
@@ -48,13 +48,14 @@ function ItemTypesList() {
         <>
             <Container text>
                 <Segment.Group>
-                    {state.itemTypes && state.itemTypes.map(item => {
+                    {Object.keys(state.itemTypes).map((itemTypeId) => {
+                        const itemType = state.itemTypes[itemTypeId];
                         return (
-                            <Segment key={item.id}>
-                                {getItemTypeDisplay(item)}
+                            <Segment key={itemType.id}>
+                                {getItemTypeDisplay(itemType)}
                                 <Button negative
-                                    key={item.i}
-                                    onClick={() => handleClickDelete(item.id)}
+                                    key={itemType.id}
+                                    onClick={() => handleClickDelete(itemType.id)}
                                 >
                                     Delete
                                 </Button>

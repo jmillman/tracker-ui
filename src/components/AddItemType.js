@@ -2,7 +2,6 @@ import React, { useContext, useState, useRef } from 'react';
 import GlobalContext from '../store/GlobalContext';
 
 import { ItemDataTypes } from '../templates/itemTypes';
-import { debug } from '../utils';
 
 import {
     Button,
@@ -43,7 +42,6 @@ function AddItemType(props) {
     }
 
     async function saveCallback(result) {
-        debug({result});
         if(result.status === 'success') {
             setFormStatus({status: 'success', message: 'Item Type Saved'});
             setTimeout(resetForm, 1000);

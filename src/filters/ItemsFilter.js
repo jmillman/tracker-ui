@@ -4,12 +4,12 @@ export class ItemsFilter {
         this.name = name;
     }
     
-    setTypeName(name) {
-        this.name = name;
+    setTypeName(typeName) {
+        this.typeName = typeName;
     }
 
-    getDate() {
-        return this.date;
+    setDate(date) {
+        this.date = date;
     }
 
     setDateStart(date) {
@@ -25,12 +25,14 @@ export class ItemsFilter {
         if(this.name) {
             retItems = retItems.filter(item=> {
                 return true;
+                // return Object.keys()
                 // getItemTypeName(items, item.typeId).contains(this.name)}
             });
+            return retItems;
         }
         if(this.date) {
             retItems = retItems.filter(item=> item.date === this.date);
         }
-        return items;
+        return retItems;
     }    
 }

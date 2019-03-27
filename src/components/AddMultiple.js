@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import GlobalContext from '../store/GlobalContext';
 import AddItem from './AddItem';
 
 
@@ -9,6 +10,7 @@ import {
 
   
 function AddMultiple(props) {
+    const [state , , ] = useContext(GlobalContext);
     const [closedAddIds, setAddIds] = useState([]);
 
     // keep and array of the closedItems, and if they are closed, don't render
@@ -22,7 +24,8 @@ function AddMultiple(props) {
                     {props.title}
                 </Segment>
                 <Segment>
-                    {props.itemTypes.map((itemType) => {
+                    {Object.keys(props.itemTypes).map((itemTypeId) => {
+                        const itemType = state.itemTypes[itemTypeId];
                         if(!closedAddIds.includes(itemType.id)) {
                             return(<AddItem key={itemType.id} itemType={itemType} closeMe={closeItem}/>);
                         }
