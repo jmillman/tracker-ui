@@ -15,7 +15,7 @@ function TasksPage() {
     const [state, ,] = useContext(GlobalContext);
     const panes = [
         { menuItem: 'Add Single', render: () => <Tab.Pane><AddItem /></Tab.Pane> },
-        { menuItem: 'Add Multiple', render: () => <Tab.Pane><AddMultiple itemTypes={state.itemTypes} title='All Tasks'/></Tab.Pane> },
+        { menuItem: 'All Tasks', render: () => <Tab.Pane><AddMultiple itemTypes={state.itemTypes} title='All Tasks'/></Tab.Pane> },
       ];
     state.taskLists.forEach(taskList => {
         const tabName = `${taskList.value} Task List`;
