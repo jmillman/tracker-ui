@@ -1,5 +1,5 @@
 import axios from 'axios';
-const url = 'http://redjsolutions.com/api/index.php';
+const url = 'https://redjsolutions.com/api/index.php';
 
 export class AddItemInput{
     constructor(userid, recordType, value, date, typeId, notes) {
