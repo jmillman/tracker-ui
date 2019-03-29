@@ -18,8 +18,8 @@ export function withGlobalContext(Component) {
     return function contextComponent(props) {
         const [state, callReducer] = useReducer(reducer, {data: [], taskLists: [], itemTypes: [], views: [], users: []});
 
-        const fetchItemsFromApp = () => {
-            fetchItems((result) => {
+        const fetchItemsFromApp = (userId) => {
+            fetchItems(userId, (result) => {
                 const taskCompleted = result.filter((item)=>item.recordType === "taskCompleted");
                 const taskLists = result.filter((item)=>item.recordType === "taskList");
                 const views = result.filter((item)=>item.recordType === "view");
@@ -30,8 +30,8 @@ export function withGlobalContext(Component) {
         };
     
                 
-        const fetchItemTypesFromApp = () => {
-            fetchItemTypes((result) => callReducer({type: 'ITEMTYPES', itemTypes: result}));
+        const fetchItemTypesFromApp = (userId) => {
+            fetchItemTypes(userId, (result) => callReducer({type: 'ITEMTYPES', itemTypes: result}));
         };
     
         const fetchUsersFromApp = () => {
@@ -40,8 +40,6 @@ export function withGlobalContext(Component) {
     
         // This will fetch all items, if necessary
         useEffect(() => {
-            fetchItemsFromApp();
-            fetchItemTypesFromApp();
             fetchUsersFromApp();
         }, []);
 
@@ -51,7 +49,7 @@ export function withGlobalContext(Component) {
             addItemType(state.loggedInUser.id, name, dataType_1, dataName_1, dataType_2, dataName_2,
                 (result) => {
                     successCallback(result);
-                    fetchItemTypesFromApp();
+                    fetchItemTypesFromApp(state.loggedInUser.id);
                 }   
             );
         };
@@ -59,7 +57,7 @@ export function withGlobalContext(Component) {
         const createListFromApp = (name, checkboxValues, callback) => {
             const addItem = new AddItemInput(state.loggedInUser.id, 'taskList', name, currentDate, null, checkboxValues);
             addItem.save((result) => {
-                fetchItemsFromApp();
+                fetchItemsFromApp(state.loggedInUser.id);
                 callback(result);
             });
         };
@@ -81,7 +79,7 @@ export function withGlobalContext(Component) {
             const addItem = new AddItemInput(state.loggedInUser.id, 'taskCompleted', value, currentDate, typeId, null);
 
             addItem.save((result) => {
-                    fetchItemsFromApp();
+                    fetchItemsFromApp(state.loggedInUser.id);
                     addSuccessCallback();
                 }
             );
@@ -91,7 +89,7 @@ export function withGlobalContext(Component) {
             const addItem = new AddItemInput(state.loggedInUser.id, 'view', name, currentDate, null, viewJson);
 
             addItem.save((result) => {
-                    fetchItemsFromApp();
+                    fetchItemsFromApp(state.loggedInUser.id);
                     callback(result);
                 }
             );
@@ -99,7 +97,7 @@ export function withGlobalContext(Component) {
     
         const deleteItemFromApp = (id) => {
             deleteItem(id, (result) => {
-                fetchItemsFromApp();
+                fetchItemsFromApp(state.loggedInUser.id);
                 }
             );
         };
@@ -107,13 +105,15 @@ export function withGlobalContext(Component) {
         const deleteItemTypeFromApp = (id, callback) => {
             deleteItemType(id, (result) => {
                 callback(result);
-                fetchItemTypesFromApp();
+                fetchItemTypesFromApp(state.loggedInUser.id);
                 }
             );
         };
 
         const loginUserFromApp = (user) => {
-            callReducer({type: 'loginUser', user: user})
+            callReducer({type: 'loginUser', user: user});
+            fetchItemsFromApp(user.id);
+            fetchItemTypesFromApp(user.id);
         };
     
         const api = {

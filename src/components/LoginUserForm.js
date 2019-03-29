@@ -15,7 +15,6 @@ function LoginUserForm() {
     const [selectedUserId, setSelectedUserId] = useState('');
 
     function handleSelectUser(userId) {
-        console.error('handleSelectUser userId=%O', userId);
         setSelectedUserId(userId)
 
         const user = state.users.find(({id}) => id === userId);

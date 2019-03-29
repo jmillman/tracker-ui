@@ -70,13 +70,15 @@ export async function addItemType(userid, name, dataType_1, dataName_1, dataType
     }
 }
 
-export async function fetchItems(callback) {
-    const response = await axios.get(`${url}`);
+export async function fetchItems(userid, callback) {
+    if(typeof userid !== "string" && typeof "callback" !== "function") throw new Error('fetchItems input Error');
+    const response = await axios.get(`${url}?action=listItems&userid=${userid}`);
     callback(response.data);
 }
 
-export async function fetchItemTypes(callback) {
-    const response = await axios.get(`${url}?action=listItemTypes`);
+export async function fetchItemTypes(userid, callback) {
+    if(typeof userid !== "string" && typeof callback !== "function") throw new Error('fetchItems input Error');
+    const response = await axios.get(`${url}?action=listItemTypes&userid=${userid}`);
     callback(response.data);
 }
 

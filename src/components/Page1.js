@@ -19,8 +19,8 @@ const tabs = {
 };
 
 function Page1() {
-    const [state , , api] = useContext(GlobalContext);
-    const [ selectedTab, setSelectedTab ] = useState(tabs.VIEWS_PAGE);
+    const [state , ,] = useContext(GlobalContext);
+    const [ selectedTab, setSelectedTab ] = useState(tabs.LOGIN);
 
     function getTab(tabName) {
         return(<Menu.Item key={tabName} name={tabName} active={selectedTab === tabName} onClick={()=> setSelectedTab(tabName)} />);
@@ -41,21 +41,31 @@ function Page1() {
                 throw new Error('Component Not Found');
         }        
     }
+
     function getLoggedInName() {
         if (state.loggedInUser) {
             return `Hi ${state.loggedInUser.name}!`;
         }
         return 'Please Login';
     }
+
+    function getMenu() {
+        const retMenu = [];
+        if (state.loggedInUser) {
+            retMenu.push(getTab(tabs.COMPLETE_TASKS));
+            retMenu.push(getTab(tabs.VIEWS_PAGE));
+            retMenu.push(getTab(tabs.SETTINGS_PAGE));
+        }
+        return retMenu;
+    }
+
     return(
         <>
             <Grid>
                 <Grid.Column width={4}>
                 <Menu fluid vertical tabular>
                     <Menu.Item key={tabs.LOGIN} name={getLoggedInName()} active={selectedTab === tabs.LOGIN} onClick={()=> setSelectedTab(tabs.LOGIN)} />
-                    {getTab(tabs.COMPLETE_TASKS)}
-                    {getTab(tabs.VIEWS_PAGE)}
-                    {getTab(tabs.SETTINGS_PAGE)}
+                    {getMenu()}
                 </Menu>
                 </Grid.Column>
                 <Grid.Column stretched width={12}>
