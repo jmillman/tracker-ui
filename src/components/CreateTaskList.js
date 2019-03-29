@@ -75,9 +75,6 @@ function CreateTaskList() {
                             <Button negative onClick={resetForm}>Cancel</Button>
                         </Form.Field>
                     </Segment>
-                    <Segment>
-                        {JSON.stringify(checkboxValues)}
-                    </Segment>
                 </Segment.Group>
             </Form>
         </Container>

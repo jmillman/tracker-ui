@@ -39,6 +39,10 @@ function ItemTypesList() {
                     <Table.Cell>dataName_1</Table.Cell>
                     <Table.Cell>{itemType.dataName_1}</Table.Cell>
                     </Table.Row>
+                    <Table.Row>
+                    <Table.Cell>userid</Table.Cell>
+                    <Table.Cell>{itemType.userId}</Table.Cell>
+                    </Table.Row>
                 </Table.Body>
             </Table>            
         );

@@ -6,11 +6,11 @@ import {
     Select,
   } from 'semantic-ui-react';
 
-function ViewsSelectList(props) {
+function SelectList(props) {
     const pulldownOptions = props.optionItems.map((item) => {
         return {
             key: item.id,
-            text: item.value,
+            text: item[props.textKey],
             value: item.id,
         };
     });
@@ -18,7 +18,7 @@ function ViewsSelectList(props) {
     return(
         <Form.Field>
                 <Select
-                    placeholder='Select a type to track...'
+                    placeholder={props.placeholder}
                     options={pulldownOptions}
                     value={props.selected}
                     onChange={(e, data)=>{
@@ -29,11 +29,12 @@ function ViewsSelectList(props) {
     );
 }
 
-ViewsSelectList.propTypes = {
+SelectList.propTypes = {
     callback: PropTypes.func.isRequired,
     optionItems: PropTypes.array.isRequired,
     selected: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    textKey: PropTypes.string.isRequired,
 };
 
-export default ViewsSelectList;
+export default SelectList;

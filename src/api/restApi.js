@@ -2,7 +2,8 @@ import axios from 'axios';
 const url = 'http://redjsolutions.com/api/index.php';
 
 export class AddItemInput{
-    constructor(recordType, value, date, typeId, notes) {
+    constructor(userid, recordType, value, date, typeId, notes) {
+        this.userid = userid;
         this.recordType = recordType;
         this.value= value;
         this.date = new Date().toISOString().slice(0,10);
@@ -12,11 +13,27 @@ export class AddItemInput{
     async save(callback){
         const bodyFormData = new FormData();
         bodyFormData.set('action', 'insert');
+        bodyFormData.set('userid', this.userid);
         bodyFormData.set('value', this.value);
         bodyFormData.set('typeId', this.typeId);
         bodyFormData.set('recordType', this.recordType);
         bodyFormData.set('notes', this.notes);
         bodyFormData.set('date', this.date);
+        const response = await axios.post(url, bodyFormData);
+        if(callback){
+            callback(response.data);
+        }    
+    }
+}
+
+export class AddUserInput{
+    constructor(name) {
+        this.name = name;
+    }
+    async save(callback){
+        const bodyFormData = new FormData();
+        bodyFormData.set('action', 'createUsers');
+        bodyFormData.set('name', this.name);
         const response = await axios.post(url, bodyFormData);
         if(callback){
             callback(response.data);
@@ -36,9 +53,10 @@ export class AddItemInput{
 //     }
 // }
 
-export async function addItemType(name, dataType_1, dataName_1, dataType_2, dataName_2, callback) {
+export async function addItemType(userid, name, dataType_1, dataName_1, dataType_2, dataName_2, callback) {
     const bodyFormData = new FormData();
     bodyFormData.set('action', 'createItemType');
+    bodyFormData.set('userid', userid);
     bodyFormData.set('name', name);
     bodyFormData.set('dataType_1', dataType_1);
     bodyFormData.set('dataName_1', dataName_1);
@@ -59,6 +77,11 @@ export async function fetchItems(callback) {
 
 export async function fetchItemTypes(callback) {
     const response = await axios.get(`${url}?action=listItemTypes`);
+    callback(response.data);
+}
+
+export async function fetchUsers(callback) {
+    const response = await axios.get(`${url}?action=listUsers`);
     callback(response.data);
 }
 

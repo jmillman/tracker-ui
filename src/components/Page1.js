@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import GlobalContext from '../store/GlobalContext';
 import ViewsPage from './ViewsPage';
 import TasksPage from './TasksPage';
 import SettingsPage from './SettingsPage';
+import LoginUserForm from './LoginUserForm';
 
 import {
     Segment,
@@ -13,9 +15,11 @@ const tabs = {
     VIEWS_PAGE: 'View',
     COMPLETE_TASKS: 'Do',
     SETTINGS_PAGE: 'Settings',
+    LOGIN: 'Login',
 };
 
 function Page1() {
+    const [state , , api] = useContext(GlobalContext);
     const [ selectedTab, setSelectedTab ] = useState(tabs.VIEWS_PAGE);
 
     function getTab(tabName) {
@@ -30,16 +34,25 @@ function Page1() {
                 return(<TasksPage />);
             case tabs.SETTINGS_PAGE:
                 return(<SettingsPage />);
+            case tabs.LOGIN:
+                return(<LoginUserForm />);
 
             default:
                 throw new Error('Component Not Found');
         }        
+    }
+    function getLoggedInName() {
+        if (state.loggedInUser) {
+            return `Hi ${state.loggedInUser.name}!`;
+        }
+        return 'Please Login';
     }
     return(
         <>
             <Grid>
                 <Grid.Column width={4}>
                 <Menu fluid vertical tabular>
+                    <Menu.Item key={tabs.LOGIN} name={getLoggedInName()} active={selectedTab === tabs.LOGIN} onClick={()=> setSelectedTab(tabs.LOGIN)} />
                     {getTab(tabs.COMPLETE_TASKS)}
                     {getTab(tabs.VIEWS_PAGE)}
                     {getTab(tabs.SETTINGS_PAGE)}

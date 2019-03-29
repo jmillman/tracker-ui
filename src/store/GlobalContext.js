@@ -8,14 +8,15 @@
 import React, { useReducer, useEffect } from 'react';
 import { createContext } from 'react';
 import reducer from '../store/reducer';
-import { fetchItems, deleteItem, addItemType, fetchItemTypes, deleteItemType, AddItemInput } from '../api/restApi';
+import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput } from '../api/restApi';
+
 
 const GlobalContext = createContext();
 export default GlobalContext;
 
 export function withGlobalContext(Component) {
     return function contextComponent(props) {
-        const [state, callReducer] = useReducer(reducer, {data: [], taskLists: [], itemTypes: [], views: []});
+        const [state, callReducer] = useReducer(reducer, {data: [], taskLists: [], itemTypes: [], views: [], users: []});
 
         const fetchItemsFromApp = () => {
             fetchItems((result) => {
@@ -28,20 +29,26 @@ export function withGlobalContext(Component) {
             });
         };
     
+                
         const fetchItemTypesFromApp = () => {
             fetchItemTypes((result) => callReducer({type: 'ITEMTYPES', itemTypes: result}));
+        };
+    
+        const fetchUsersFromApp = () => {
+            fetchUsers((result) => callReducer({type: 'USERS', users: result}));
         };
     
         // This will fetch all items, if necessary
         useEffect(() => {
             fetchItemsFromApp();
             fetchItemTypesFromApp();
+            fetchUsersFromApp();
         }, []);
 
         const currentDate = new Date().toISOString().slice(0,10);
         
         const addItemTypeFromApp = (name, dataType_1, dataName_1, dataType_2, dataName_2, successCallback) => {
-            addItemType(name, dataType_1, dataName_1, dataType_2, dataName_2,
+            addItemType(state.loggedInUser.id, name, dataType_1, dataName_1, dataType_2, dataName_2,
                 (result) => {
                     successCallback(result);
                     fetchItemTypesFromApp();
@@ -50,15 +57,28 @@ export function withGlobalContext(Component) {
         };
 
         const createListFromApp = (name, checkboxValues, callback) => {
-            const addItem = new AddItemInput('taskList', name, currentDate, null, checkboxValues);
+            const addItem = new AddItemInput(state.loggedInUser.id, 'taskList', name, currentDate, null, checkboxValues);
             addItem.save((result) => {
                 fetchItemsFromApp();
                 callback(result);
             });
         };
     
+        
+        const createUserFromApp = (userName, callback) => {
+            const addUser = new AddUserInput(userName);
+
+            addUser.save((result) => {
+                callback(result);
+                fetchUsersFromApp();
+                    // fetchItemsFromApp();
+                    // addSuccessCallback();
+                }
+            );
+        };
+    
         const addItemFromApp = (value, typeId, addSuccessCallback) => {
-            const addItem = new AddItemInput('taskCompleted', value, currentDate, typeId, null);
+            const addItem = new AddItemInput(state.loggedInUser.id, 'taskCompleted', value, currentDate, typeId, null);
 
             addItem.save((result) => {
                     fetchItemsFromApp();
@@ -68,7 +88,7 @@ export function withGlobalContext(Component) {
         };
     
         const addViewFromApp = (name, viewJson, callback) => {
-            const addItem = new AddItemInput('view', name, currentDate, null, viewJson);
+            const addItem = new AddItemInput(state.loggedInUser.id, 'view', name, currentDate, null, viewJson);
 
             addItem.save((result) => {
                     fetchItemsFromApp();
@@ -90,7 +110,11 @@ export function withGlobalContext(Component) {
                 fetchItemTypesFromApp();
                 }
             );
-        };        
+        };
+
+        const loginUserFromApp = (user) => {
+            callReducer({type: 'loginUser', user: user})
+        };
     
         const api = {
             addItemFromApp,
@@ -100,6 +124,8 @@ export function withGlobalContext(Component) {
             deleteItemTypeFromApp,
             createListFromApp,
             addViewFromApp,
+            createUserFromApp,
+            loginUserFromApp,
         }
 
         return (

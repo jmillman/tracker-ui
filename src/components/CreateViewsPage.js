@@ -3,7 +3,7 @@ import GlobalContext from '../store/GlobalContext';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
 import CompletedItem from './CompletedItem';
 import ItemTypeCheckboxes from './ItemTypeCheckboxes';
-import ViewsSelectList from './ViewsSelectList';
+import SelectList from './SelectList';
 import { ItemsFilter } from '../filters/ItemsFilter';
 import { dateCalendarToDB, debug } from '../utils';
 
@@ -109,11 +109,12 @@ function CreateViewsPage() {
                 </Segment.Group>
                 <Segment.Group>
                     <Segment>
-                        <ViewsSelectList
+                        <SelectList
                             callback={handleSelectedView}
                             optionItems={state.views}
                             selected={selectedViewId}
                             placeholder={'Select a View...'}
+                            textKey={'value'}
                         />
                     </Segment>
                 </Segment.Group>
