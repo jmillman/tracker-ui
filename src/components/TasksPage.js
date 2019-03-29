@@ -5,8 +5,6 @@ import AddMultiple from './AddMultiple';
 
 
 import {
-    Container,
-    Segment,
     Tab,
   } from 'semantic-ui-react';
 
@@ -25,13 +23,7 @@ function TasksPage() {
     });
 
     return (
-        <Container>
-            <Segment.Group>
-                <Segment>
-                    <Tab panes={panes} />
-                </Segment>
-            </Segment.Group>
-        </Container>
+        <Tab panes={panes} />
     );
 }
 

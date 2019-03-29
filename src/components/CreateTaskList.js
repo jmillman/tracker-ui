@@ -3,7 +3,6 @@ import GlobalContext from '../store/GlobalContext';
 
 
 import {
-    Container,
     Segment,
     Checkbox,
     Form,
@@ -41,43 +40,33 @@ function CreateTaskList() {
 
     return (
 
-        <Container>
             <Form>
-                <Segment.Group>
-                    <Segment>
-                            <Form.Field key={'AddButton'}>
-                                <input
-                                    placeholder={'Task list name...'}
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    autoFocus
-                                    ref={nameRef}
+                <Form.Field key={'AddButton'}>
+                    <input
+                        placeholder={'Task list name...'}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        autoFocus
+                        ref={nameRef}
+                    />
+                </Form.Field>
+                {Object.keys(state.itemTypes).map((itemTypeId) => {
+                    const itemType = state.itemTypes[itemTypeId];
+                    return(
+                        <Segment key={itemType.id}>
+                            <Checkbox
+                                label={itemType.name}
+                                onClick={(e, data)=>handleClickCheckbox(itemType.id, data.checked)}
+                                checked={checkboxValues.includes(itemType.id)}
                                 />
-                            </Form.Field>
-                    </Segment>
-                    <Segment>
-                        {Object.keys(state.itemTypes).map((itemTypeId) => {
-                            const itemType = state.itemTypes[itemTypeId];
-                            return(
-                                <Segment key={itemType.id}>
-                                    <Checkbox
-                                        label={itemType.name}
-                                        onClick={(e, data)=>handleClickCheckbox(itemType.id, data.checked)}
-                                        checked={checkboxValues.includes(itemType.id)}
-                                        />
-                                </Segment>
-                                );
-                        })}
-                    </Segment>
-                    <Segment>
-                        <Form.Field key={'AddButton'}>
-                            <Button positive onClick={handleClickCreate}>Add</Button>
-                            <Button negative onClick={resetForm}>Cancel</Button>
-                        </Form.Field>
-                    </Segment>
-                </Segment.Group>
+                        </Segment>
+                        );
+                })}
+                <Form.Field key={'AddButton'}>
+                    <Button positive onClick={handleClickCreate}>Add</Button>
+                    <Button negative onClick={resetForm}>Cancel</Button>
+                </Form.Field>
             </Form>
-        </Container>
     );
 }
 

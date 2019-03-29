@@ -4,8 +4,6 @@ import SelectList from './SelectList';
 
 
 import {
-    Container,
-    Segment,
     Form,
   } from 'semantic-ui-react';
 
@@ -22,21 +20,15 @@ function LoginUserForm() {
     }
 
     return (
-        <Container>
             <Form>
-                <Segment.Group>
-                    <Segment>
-                        <SelectList
-                            callback={handleSelectUser}
-                            optionItems={state.users}
-                            selected={selectedUserId}
-                            placeholder={'Select a User...'}
-                            textKey={'name'}
-                        />
-                    </Segment>
-                </Segment.Group>
+                <SelectList
+                    callback={handleSelectUser}
+                    optionItems={state.users}
+                    selected={selectedUserId}
+                    placeholder={'Select a User...'}
+                    textKey={'name'}
+                />
             </Form>
-        </Container>
     );
 }
 

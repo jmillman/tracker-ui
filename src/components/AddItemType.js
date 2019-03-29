@@ -5,9 +5,7 @@ import { ItemDataTypes } from '../templates/itemTypes';
 
 import {
     Button,
-    Container,
     Form,
-    Segment,
     Select,
     Message,
   } from 'semantic-ui-react';
@@ -117,17 +115,9 @@ function AddItemType(props) {
     }
 
     return (
-        <>
-            <Container>
-                <Segment.Group>
-                    <Segment>
-                        <Form error={formStatus && formStatus.status === "error"}>
-                            {getDataTypeChooser()}
-                        </Form>
-                    </Segment>
-                </Segment.Group>
-            </Container>
-        </>
+        <Form error={formStatus && formStatus.status === "error"}>
+            {getDataTypeChooser()}
+        </Form>
     );
 }
 

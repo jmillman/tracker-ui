@@ -4,8 +4,6 @@ import ItemsArea from './ItemsArea';
 
 
 import {
-    Container,
-    Segment,
     Tab,
   } from 'semantic-ui-react';
 
@@ -19,13 +17,7 @@ function ViewsPage() {
         panes.push({ menuItem: `${view.value}`, render: () => <Tab.Pane key={view.id}><ItemsArea viewId={view.id} /></Tab.Pane> });        
     });
     return (
-        <Container>
-            <Segment.Group>
-                <Segment>
-                    <Tab panes={panes} />
-                </Segment>
-            </Segment.Group>
-        </Container>
+        <Tab panes={panes} />
     );
 }
 

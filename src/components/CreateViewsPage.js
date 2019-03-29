@@ -9,7 +9,6 @@ import { dateCalendarToDB, debug } from '../utils';
 
 import {
     Form,
-    Segment,
     Button,
     Container,
     Grid,
@@ -88,36 +87,26 @@ function CreateViewsPage() {
     function getForm() {
         return(
             <Form>
-                <Segment.Group>
-                    <Segment>
-                            <Form.Field key={'AddView'}>
-                                <input
-                                    placeholder={'View name...'}
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    autoFocus
-                                    ref={nameRef}
-                                />
-                            </Form.Field>
-                    </Segment>
-                    <Segment>
-                        <Form.Field key={'AddButton'}>
-                            <Button positive onClick={handleClickCreate}>Add</Button>
-                            <Button negative onClick={resetForm}>Cancel</Button>
-                        </Form.Field>
-                    </Segment>
-                </Segment.Group>
-                <Segment.Group>
-                    <Segment>
-                        <SelectList
-                            callback={handleSelectedView}
-                            optionItems={state.views}
-                            selected={selectedViewId}
-                            placeholder={'Select a View...'}
-                            textKey={'value'}
-                        />
-                    </Segment>
-                </Segment.Group>
+                <Form.Field key={'AddView'}>
+                    <input
+                        placeholder={'View name...'}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        autoFocus
+                        ref={nameRef}
+                    />
+                </Form.Field>
+                <Form.Field key={'AddButton'}>
+                    <Button positive onClick={handleClickCreate}>Add</Button>
+                    <Button negative onClick={resetForm}>Cancel</Button>
+                </Form.Field>
+                <SelectList
+                    callback={handleSelectedView}
+                    optionItems={state.views}
+                    selected={selectedViewId}
+                    placeholder={'Select a View...'}
+                    textKey={'value'}
+                />
             </Form>
         );
     }

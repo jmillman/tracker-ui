@@ -5,8 +5,6 @@ import CreateViewsPage from './CreateViewsPage';
 import CreateUsersPage from './CreateUsersPage';
 
 import {
-    Container,
-    Segment,
     Tab,
   } from 'semantic-ui-react';
 
@@ -20,13 +18,7 @@ function SettingsPage() {
       ];
     
     return (
-        <Container>
-            <Segment.Group>
-                <Segment>
-                    <Tab panes={panes} />
-                </Segment>
-            </Segment.Group>
-        </Container>
+        <Tab panes={panes} />
     );
 }
 
