@@ -8,7 +8,8 @@
 import React, { useReducer, useEffect } from 'react';
 import { createContext } from 'react';
 import reducer from '../store/reducer';
-import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput, editAndSave } from '../api/restApi';
+import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput } from '../api/restApi';
+import { debug } from '../utils';
 
 
 const GlobalContext = createContext();
@@ -40,8 +41,8 @@ export function withGlobalContext(Component) {
     
         // This will fetch all items, if necessary
         useEffect(() => {
-            // loginUserFromApp({id: "4", name: "Beverly"});
             fetchUsersFromApp();
+            loginUserFromApp({id: "3", name: "Jared"});
         }, []);
 
         const currentDate = new Date().toISOString().slice(0,10);
@@ -58,6 +59,14 @@ export function withGlobalContext(Component) {
         const createListFromApp = (name, checkboxValues, callback) => {
             const addItem = new AddItemInput(state.loggedInUser.id, 'taskList', name, currentDate, null, checkboxValues);
             addItem.save((result) => {
+                fetchItemsFromApp(state.loggedInUser.id);
+                callback(result);
+            });
+        };
+    
+        const editListFromApp = (id, name, checkboxValues, callback) => {
+            const item = new AddItemInput(state.loggedInUser.id, 'taskList', name, currentDate, null, checkboxValues);
+            item.editAndSave(id, (result) => {
                 fetchItemsFromApp(state.loggedInUser.id);
                 callback(result);
             });
@@ -105,8 +114,12 @@ export function withGlobalContext(Component) {
             );
         };
     
-        const deleteItemFromApp = (id) => {
+        const deleteItemFromApp = (id, callback) => {
             deleteItem(id, (result) => {
+                if(callback) {
+                    callback(result);
+                }
+
                 fetchItemsFromApp(state.loggedInUser.id);
                 }
             );
@@ -137,6 +150,7 @@ export function withGlobalContext(Component) {
             createUserFromApp,
             loginUserFromApp,
             editViewFromApp,
+            editListFromApp,
         }
 
         return (

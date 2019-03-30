@@ -11,9 +11,9 @@ import {
 
 function SettingsPage() {
     const panes = [
-        { menuItem: 'Create Task Lists', render: () => <Tab.Pane><CreateTaskList /></Tab.Pane> },
+        { menuItem: 'Manage Task Lists', render: () => <Tab.Pane><CreateTaskList /></Tab.Pane> },
         { menuItem: 'Item Types', render: () => <Tab.Pane><ItemTypePage /></Tab.Pane> },
-        { menuItem: 'Create Views', render: () => <Tab.Pane><CreateViewsPage /></Tab.Pane> },
+        { menuItem: 'Manage Views', render: () => <Tab.Pane><CreateViewsPage /></Tab.Pane> },
         { menuItem: 'Create Users', render: () => <Tab.Pane><CreateUsersPage /></Tab.Pane> },
       ];
     

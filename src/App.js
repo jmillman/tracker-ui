@@ -1,7 +1,7 @@
 import React from 'react';
 import { withGlobalContext } from './store/GlobalContext';
 
-import Page1 from './components/Page1';
+// import Page1 from './components/Page1';
 import PageMobile from './components/PageMobile';
 
 function App() {

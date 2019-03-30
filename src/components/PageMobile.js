@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import GlobalContext from '../store/GlobalContext';
-import { Icon, Menu, Header, Message } from 'semantic-ui-react'
+import { Icon, Menu } from 'semantic-ui-react'
 import ViewsPage from './ViewsPage';
 import TasksPage from './TasksPage';
 import SettingsPage from './SettingsPage';
 import LoginUserForm from './LoginUserForm';
 
 const tabs = {
-    VIEWS_PAGE: 'View',
-    COMPLETE_TASKS: 'Do',
+    VIEWS_PAGE: 'View History',
+    COMPLETE_TASKS: 'Task Lists',
     SETTINGS_PAGE: 'Settings',
     LOGIN: 'Login',
 };
@@ -45,18 +45,18 @@ function getMenu() {
     if (state.loggedInUser) {
         return (
             <>
-            <Menu.Item name='home'
+            <Menu.Item name={tabs.SETTINGS_PAGE}
                 onClick={()=> setSelectedTab(tabs.SETTINGS_PAGE)} 
             //   onClick={handleShowClick}
             >
                 <Icon name='setting' />
             </Menu.Item>
             <Menu.Item
-                name='Do'
+                name={tabs.COMPLETE_TASKS}
                 onClick={()=> setSelectedTab(tabs.COMPLETE_TASKS)} 
             />
             <Menu.Item
-                name='View'
+                name={tabs.VIEWS_PAGE}
                 onClick={()=> setSelectedTab(tabs.VIEWS_PAGE)} 
             />
             </>

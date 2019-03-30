@@ -27,7 +27,6 @@ export class AddItemInput{
     }
 
     async editAndSave(id, callback){
-        debugger;
         const bodyFormData = new FormData();
         bodyFormData.set('action', 'editItem');
         bodyFormData.set('id', id);

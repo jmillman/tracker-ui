@@ -1,19 +1,24 @@
 import React, { useState, useContext, useRef } from 'react';
 import GlobalContext from '../store/GlobalContext';
+import SelectList from './SelectList';
 
 
 import {
+    Message,
     Segment,
     Checkbox,
     Form,
     Button
   } from 'semantic-ui-react';
+import { debug } from '../utils';
 
   
 function CreateTaskList() {
     const [state , , api] = useContext(GlobalContext);
     const [checkboxValues, setCheckboxValues] = useState([]);
     const [name, setName] = useState([]);
+    const [taskListToEditId, setTaskListToEditId] = useState('');
+    const [formStatus, setFormStatus] = useState(null);
     const nameRef = useRef(null);
 
     function handleClickCheckbox(id, state) {
@@ -27,20 +32,58 @@ function CreateTaskList() {
     function resetForm() {
         setCheckboxValues([]);
         setName('')
+        setFormStatus(null);
+        setTaskListToEditId('');
         nameRef.current.focus();
     }
     
     async function callback(result) {
-        console.error('CreateTaskList callback =%O', checkboxValues);
+        if(result.status === 'success') {
+            setFormStatus({status: 'success', message: 'Task List Saved'});
+            setTimeout(resetForm, 1000);
+        }
+        else {
+            // const obj = {status: result.status, message: result.message}
+            setFormStatus({status: result.status, message: result.message});
+        }
+    }
+
+    function handleSelectTaskListToEdit(id) {
+        setTaskListToEditId(id);
+        const selectedTaskList = state.taskLists.find(({id}) => id === id);
+        setName(selectedTaskList.value);
+        console.error(selectedTaskList.notes.split(','));
+        setCheckboxValues(selectedTaskList.notes.split(','));
+        // setTaskListToEditId
     }
 
     function handleClickCreate() {
         api.createListFromApp(name, checkboxValues, callback);
     }
 
+    function handleClickEdit() {
+        api.editListFromApp(taskListToEditId, name, checkboxValues, callback);
+    }
+
+    function handleClickDelete() {
+        api.deleteItemFromApp(taskListToEditId, resetForm);
+    }
+
+
     return (
 
             <Form>
+                <Form.Field key={'selectTaskListToEdit'}>
+                    <SelectList
+                        callback={handleSelectTaskListToEdit}
+                        optionItems={state.taskLists}
+                        selected={taskListToEditId}
+                        placeholder={'Select a Task List To Edit...'}
+                        textKey={'value'}
+                    />
+                </Form.Field>
+
+
                 <Form.Field key={'CreateTaskListAddButton'}>
                     <input
                         placeholder={'Task list name...'}
@@ -50,6 +93,12 @@ function CreateTaskList() {
                         ref={nameRef}
                     />
                 </Form.Field>
+                {formStatus && formStatus.status ? 
+                    <Message
+                    color={formStatus && formStatus.status === 'error' ? 'red' : 'green'}
+                    content={formStatus && formStatus.message}
+                    />
+                : null}
                 {Object.keys(state.itemTypes).map((itemTypeId) => {
                     const itemType = state.itemTypes[itemTypeId];
                     return(
@@ -62,9 +111,10 @@ function CreateTaskList() {
                         </Segment>
                         );
                 })}
-                <Form.Field key={'AddButton'}>
-                    <Button positive onClick={handleClickCreate}>Add</Button>
-                    <Button negative onClick={resetForm}>Cancel</Button>
+                <Form.Field key={'Buttons'}>
+                    {(taskListToEditId) ? <Button positive onClick={handleClickEdit}>Edit</Button> : <Button positive onClick={handleClickCreate}>Add</Button> }
+                    <Button color='orange' onClick={resetForm}>Reset</Button>
+                    {(taskListToEditId) ? <Button negative onClick={handleClickDelete} floated='right'>Delete</Button> : null}
                 </Form.Field>
             </Form>
     );
