@@ -7,8 +7,8 @@ import SettingsPage from './SettingsPage';
 import LoginUserForm from './LoginUserForm';
 
 const tabs = {
-    VIEWS_PAGE: 'View History',
-    COMPLETE_TASKS: 'Task Lists',
+    VIEWS_PAGE: 'View Task History',
+    COMPLETE_TASKS: 'Do Tasks',
     SETTINGS_PAGE: 'Settings',
     LOGIN: 'Login',
 };

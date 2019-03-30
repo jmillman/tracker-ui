@@ -78,15 +78,14 @@ function CreateTaskList() {
                         callback={handleSelectTaskListToEdit}
                         optionItems={state.taskLists}
                         selected={taskListToEditId}
-                        placeholder={'Select a Task List To Edit...'}
+                        placeholder={'Select a task list to edit'}
                         textKey={'value'}
                     />
                 </Form.Field>
 
-
                 <Form.Field key={'CreateTaskListAddButton'}>
                     <input
-                        placeholder={'Task list name...'}
+                        placeholder={'Create a new task list by typing a name here, select some tasks, then clicking add.'}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         autoFocus
