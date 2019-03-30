@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import GlobalContext from '../store/GlobalContext';
 import SelectList from './SelectList';
 
@@ -10,8 +10,6 @@ import {
     Form,
     Button
   } from 'semantic-ui-react';
-import { debug } from '../utils';
-
   
 function CreateTaskList() {
     const [state , , api] = useContext(GlobalContext);
@@ -46,11 +44,10 @@ function CreateTaskList() {
         }
     }
 
-    function handleSelectTaskListToEdit(id) {
-        setTaskListToEditId(id);
-        const selectedTaskList = state.taskLists.find(({id}) => id === id);
+    function handleSelectTaskListToEdit(taskID) {
+        setTaskListToEditId(taskID);
+        const selectedTaskList = state.taskLists.find(({id}) => id === taskID);
         setName(selectedTaskList.value);
-        console.error(selectedTaskList.notes.split(','));
         setCheckboxValues(selectedTaskList.notes.split(','));
         // setTaskListToEditId
     }

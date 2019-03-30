@@ -9,8 +9,6 @@ import React, { useReducer, useEffect } from 'react';
 import { createContext } from 'react';
 import reducer from '../store/reducer';
 import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput } from '../api/restApi';
-import { debug } from '../utils';
-
 
 const GlobalContext = createContext();
 export default GlobalContext;
