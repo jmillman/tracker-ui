@@ -19,7 +19,6 @@ function CreateTaskList() {
     const [name, setName] = useState([]);
     const [taskListToEditId, setTaskListToEditId] = useState('');
     const [formStatus, setFormStatus] = useState(null);
-    const nameRef = useRef(null);
 
     function handleClickCheckbox(id, state) {
         if(state === true) {
@@ -34,7 +33,6 @@ function CreateTaskList() {
         setName('')
         setFormStatus(null);
         setTaskListToEditId('');
-        nameRef.current.focus();
     }
     
     async function callback(result) {
@@ -88,8 +86,6 @@ function CreateTaskList() {
                         placeholder={'Create a new task list by typing a name here, select some tasks, then clicking add.'}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        autoFocus
-                        ref={nameRef}
                     />
                 </Form.Field>
                 {formStatus && formStatus.status ? 
