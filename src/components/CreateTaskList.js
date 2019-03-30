@@ -3,7 +3,7 @@ import GlobalContext from '../store/GlobalContext';
 
 
 import {
-    Container,
+    Message,
     Segment,
     Checkbox,
     Form,
@@ -15,6 +15,7 @@ function CreateTaskList() {
     const [state , , api] = useContext(GlobalContext);
     const [checkboxValues, setCheckboxValues] = useState([]);
     const [name, setName] = useState([]);
+    const [formStatus, setFormStatus] = useState(null);
     const nameRef = useRef(null);
 
     function handleClickCheckbox(id, state) {
@@ -32,7 +33,14 @@ function CreateTaskList() {
     }
     
     async function callback(result) {
-        console.error('CreateTaskList callback =%O', checkboxValues);
+        if(result.status === 'success') {
+            setFormStatus({status: 'success', message: 'Task List Saved'});
+            setTimeout(resetForm, 1000);
+        }
+        else {
+            // const obj = {status: result.status, message: result.message}
+            setFormStatus({status: result.status, message: result.message});
+        }
     }
 
     function handleClickCreate() {
@@ -40,44 +48,39 @@ function CreateTaskList() {
     }
 
     return (
-
-        <Container>
-            <Form>
-                <Segment.Group>
-                    <Segment>
-                            <Form.Field key={'AddButton'}>
-                                <input
-                                    placeholder={'Task list name...'}
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    autoFocus
-                                    ref={nameRef}
-                                />
-                            </Form.Field>
+        <Form>
+            <Form.Field key={'AddButton'}>
+                <input
+                    placeholder={'Task list name...'}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoFocus
+                    ref={nameRef}
+                />
+            </Form.Field>
+            {formStatus && formStatus.status ? 
+                    <Message
+                    color={formStatus && formStatus.status === 'error' ? 'red' : 'green'}
+                    content={formStatus && formStatus.message}
+                    />
+                : null}
+            {Object.keys(state.itemTypes).map((itemTypeId) => {
+                const itemType = state.itemTypes[itemTypeId];
+                return(
+                    <Segment key={itemType.id}>
+                        <Checkbox
+                            label={itemType.name}
+                            onClick={(e, data)=>handleClickCheckbox(itemType.id, data.checked)}
+                            checked={checkboxValues.includes(itemType.id)}
+                            />
                     </Segment>
-                    <Segment>
-                        {Object.keys(state.itemTypes).map((itemTypeId) => {
-                            const itemType = state.itemTypes[itemTypeId];
-                            return(
-                                <Segment key={itemType.id}>
-                                    <Checkbox
-                                        label={itemType.name}
-                                        onClick={(e, data)=>handleClickCheckbox(itemType.id, data.checked)}
-                                        checked={checkboxValues.includes(itemType.id)}
-                                        />
-                                </Segment>
-                                );
-                        })}
-                    </Segment>
-                    <Segment>
-                        <Form.Field key={'AddButton'}>
-                            <Button positive onClick={handleClickCreate}>Add</Button>
-                            <Button negative onClick={resetForm}>Cancel</Button>
-                        </Form.Field>
-                    </Segment>
-                </Segment.Group>
-            </Form>
-        </Container>
+                    );
+            })}
+            <Form.Field key={'AddButton'}>
+                <Button positive onClick={handleClickCreate}>Add</Button>
+                <Button negative onClick={resetForm}>Cancel</Button>
+            </Form.Field>
+        </Form>
     );
 }
 
