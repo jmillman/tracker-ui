@@ -66,6 +66,7 @@ function CreateViewsPage() {
     function resetForm() {
         // setFormStatus(null);
         setName('');
+        setSelectedViewId('');
         // nameRef.current.focus();
     }
     async function saveCallback(result) {
@@ -84,10 +85,15 @@ function CreateViewsPage() {
         api.addViewFromApp(name, itemsFilter.getJson(), saveCallback)
     }
 
+    async function handleClickEdit() {
+        api.editViewFromApp(selectedViewId, name, itemsFilter.getJson(), saveCallback)
+    }
+
     function getForm() {
         return(
             <Form>
-                <Form.Field key={'AddView'}>
+                {selectedViewId}
+                <Form.Field key={'View Select'}>
                     <input
                         placeholder={'View name...'}
                         value={name}
@@ -97,7 +103,8 @@ function CreateViewsPage() {
                     />
                 </Form.Field>
                 <Form.Field key={'AddButton'}>
-                    <Button positive onClick={handleClickCreate}>Add</Button>
+                    {(selectedViewId) ? <Button positive onClick={handleClickEdit}>Edit</Button> : null}
+                    <Button positive onClick={handleClickCreate}>Add New</Button>
                     <Button negative onClick={resetForm}>Cancel</Button>
                 </Form.Field>
                 <SelectList

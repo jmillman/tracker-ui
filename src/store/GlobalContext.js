@@ -8,7 +8,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { createContext } from 'react';
 import reducer from '../store/reducer';
-import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput } from '../api/restApi';
+import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput, editAndSave } from '../api/restApi';
 
 
 const GlobalContext = createContext();
@@ -40,6 +40,7 @@ export function withGlobalContext(Component) {
     
         // This will fetch all items, if necessary
         useEffect(() => {
+            // loginUserFromApp({id: "4", name: "Beverly"});
             fetchUsersFromApp();
         }, []);
 
@@ -85,6 +86,15 @@ export function withGlobalContext(Component) {
             );
         };
     
+        const editViewFromApp = (viewId, name, viewJson, callback) => {
+            const editItem = new AddItemInput(state.loggedInUser.id, 'view', name, currentDate, null, viewJson);
+            editItem.editAndSave(viewId, (result) => {
+                    fetchItemsFromApp(state.loggedInUser.id);
+                    callback(result);
+                }
+            );
+        };
+    
         const addViewFromApp = (name, viewJson, callback) => {
             const addItem = new AddItemInput(state.loggedInUser.id, 'view', name, currentDate, null, viewJson);
 
@@ -126,6 +136,7 @@ export function withGlobalContext(Component) {
             addViewFromApp,
             createUserFromApp,
             loginUserFromApp,
+            editViewFromApp,
         }
 
         return (

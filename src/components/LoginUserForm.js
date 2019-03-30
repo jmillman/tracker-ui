@@ -14,7 +14,6 @@ function LoginUserForm() {
 
     function handleSelectUser(userId) {
         setSelectedUserId(userId)
-
         const user = state.users.find(({id}) => id === userId);
         api.loginUserFromApp(user);
     }

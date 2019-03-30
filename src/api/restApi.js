@@ -10,9 +10,27 @@ export class AddItemInput{
         this.typeId = typeId;
         this.notes = notes;
     }
+
     async save(callback){
         const bodyFormData = new FormData();
         bodyFormData.set('action', 'insert');
+        bodyFormData.set('userid', this.userid);
+        bodyFormData.set('value', this.value);
+        bodyFormData.set('typeId', this.typeId);
+        bodyFormData.set('recordType', this.recordType);
+        bodyFormData.set('notes', this.notes);
+        bodyFormData.set('date', this.date);
+        const response = await axios.post(url, bodyFormData);
+        if(callback){
+            callback(response.data);
+        }    
+    }
+
+    async editAndSave(id, callback){
+        debugger;
+        const bodyFormData = new FormData();
+        bodyFormData.set('action', 'editItem');
+        bodyFormData.set('id', id);
         bodyFormData.set('userid', this.userid);
         bodyFormData.set('value', this.value);
         bodyFormData.set('typeId', this.typeId);

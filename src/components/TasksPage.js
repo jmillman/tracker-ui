@@ -19,11 +19,11 @@ function TasksPage() {
         const tabName = `${taskList.value} Task List`;
         const itemsInList = taskList.notes.split(',');
         const itemTypes = itemsInList.reduce((result, key) => ({ ...result, [key]: state.itemTypes[key] }), {});
-        panes.push({ menuItem: tabName, render: () => <Tab.Pane><AddMultiple itemTypes={itemTypes} title={tabName}/></Tab.Pane> });
+        panes.push({ menuItem: { key: taskList.id, content: tabName }, render: () => <Tab.Pane><AddMultiple itemTypes={itemTypes} title={tabName}/></Tab.Pane> });
     });
 
     return (
-        <Tab panes={panes} />
+        <Tab  menu={{ pointing: true, className: "wrapped" }} panes={panes} />
     );
 }
 

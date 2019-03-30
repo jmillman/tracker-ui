@@ -41,7 +41,7 @@ function CreateTaskList() {
     return (
 
             <Form>
-                <Form.Field key={'AddButton'}>
+                <Form.Field key={'CreateTaskListAddButton'}>
                     <input
                         placeholder={'Task list name...'}
                         value={name}

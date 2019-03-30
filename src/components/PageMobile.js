@@ -17,7 +17,7 @@ const tabs = {
 function PageMobile() {
     const [state , ,] = useContext(GlobalContext);
 
-  const [ selectedTab, setSelectedTab ] = useState(tabs.VIEWS_PAGE);
+  const [ selectedTab, setSelectedTab ] = useState(tabs.LOGIN);
 
   function getContent() {
     switch(selectedTab) {
@@ -41,9 +41,10 @@ function getLoggedInName() {
     return 'Please Login';
 }
 
-    return(
-      <>
-        <Menu size='huge'>
+function getMenu() {
+    if (state.loggedInUser) {
+        return (
+            <>
             <Menu.Item name='home'
                 onClick={()=> setSelectedTab(tabs.SETTINGS_PAGE)} 
             //   onClick={handleShowClick}
@@ -58,6 +59,16 @@ function getLoggedInName() {
                 name='View'
                 onClick={()=> setSelectedTab(tabs.VIEWS_PAGE)} 
             />
+            </>
+        );
+    }
+    return null;
+}
+
+    return(
+      <>
+        <Menu size='huge'>
+            {getMenu()}
             <Menu.Menu position='right'>
                 <Menu.Item key={tabs.LOGIN} name={getLoggedInName()} active={selectedTab === tabs.LOGIN} onClick={()=> setSelectedTab(tabs.LOGIN)} />
             </Menu.Menu>

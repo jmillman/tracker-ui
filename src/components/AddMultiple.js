@@ -26,7 +26,7 @@ function AddMultiple(props) {
                 <Segment>
                     {Object.keys(props.itemTypes).map((itemTypeId) => {
                         const itemType = state.itemTypes[itemTypeId];
-                        if(!closedAddIds.includes(itemType.id)) {
+                        if(itemType && !closedAddIds.includes(itemType.id)) {
                             return(<AddItem key={itemType.id} itemType={itemType} closeMe={closeItem}/>);
                         }
                         return null;
