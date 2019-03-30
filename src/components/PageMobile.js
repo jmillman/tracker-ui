@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import GlobalContext from '../store/GlobalContext';
-import { Icon, Menu } from 'semantic-ui-react'
+import { Icon, Menu, Header, Message } from 'semantic-ui-react'
 import ViewsPage from './ViewsPage';
 import TasksPage from './TasksPage';
 import SettingsPage from './SettingsPage';
