@@ -17,7 +17,7 @@ const tabs = {
 function PageMobile() {
     const [state , ,] = useContext(GlobalContext);
 
-  const [ selectedTab, setSelectedTab ] = useState(tabs.COMPLETE_TASKS);
+  const [ selectedTab, setSelectedTab ] = useState(tabs.LOGIN);
 
   function getContent() {
     switch(selectedTab) {

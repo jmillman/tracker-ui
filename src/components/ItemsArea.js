@@ -72,9 +72,6 @@ function ItemsArea(props) {
     return (
         <Segment.Group>
             <Segment>
-                {props.title || name}
-            </Segment>
-            <Segment>
                 <Grid columns='equal' padded>
                     <Grid.Row>
                         <Grid.Column>
