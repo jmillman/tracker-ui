@@ -36,7 +36,7 @@ function PageMobile() {
 }
 function getLoggedInName() {
     if (state.loggedInUser) {
-        return `Hi ${state.loggedInUser.name}!`;
+        return `${state.loggedInUser.name[0]}`;
     }
     return 'Please Login';
 }

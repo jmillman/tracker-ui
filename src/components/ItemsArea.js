@@ -8,6 +8,7 @@ import { ItemsFilter } from '../filters/ItemsFilter';
 
 import {
     Segment,
+    Grid,
   } from 'semantic-ui-react';
 
 
@@ -16,6 +17,7 @@ function ItemsArea(props) {
 
     const [state, ,] = useContext(GlobalContext);
     const [name, setName] = useState('');
+    const [lastDate, setLastDate] = useState('');
 
     useEffect(() => {
         const item = state.views.filter(view=> { return view.id === props.viewId})[0];
@@ -29,17 +31,59 @@ function ItemsArea(props) {
         return itemsFilter.filter(state.data);
     }
 
+    function getDataByDate(date) {
+        return getData().filter(data => data.date === date);
+    }
+
+    function getLastDateRow(item) {
+        if(item.date === lastDate) return null;
+
+        // setLastDate(item.date);
+        return (
+            <Grid.Row key='daterow'>
+                <Grid.Column>
+                    <Segment>{item.date}</Segment>
+                </Grid.Column>
+            </Grid.Row>            
+        );
+    }
+
+    function getDatesArray(){
+        return Array.from(new Set(getData().map((item) => item.date)))
+    }
+    function getContent() {
+        const retArray=[];
+        getDatesArray().map(date=>{
+            retArray.push(<Grid.Row key={date}>
+                <Grid.Column>
+                    <Segment>{date}</Segment>
+                </Grid.Column>
+            </Grid.Row>);            
+            
+            getDataByDate(date).map(item => {                        
+                retArray.push(
+                    <CompletedItem item={item} key={item.id}/>
+                );
+            });
+        });
+        return retArray;              
+    }
+
     return (
         <Segment.Group>
             <Segment>
                 {props.title || name}
             </Segment>
             <Segment>
-                {getData().map(item => {
-                    return (
-                        <CompletedItem item={item} key={item.id}/>
-                    );
-                })}
+                <Grid columns='equal' padded>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment>{props.title}</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+
+                    {getContent()}
+                </Grid>
             </Segment>
         </Segment.Group>
     );

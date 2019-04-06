@@ -5,6 +5,8 @@ import {
     Table,
     Icon,
     Button,
+    Grid,
+    Segment,
   } from 'semantic-ui-react';
 
 function CompletedItem(props) {
@@ -23,37 +25,23 @@ function CompletedItem(props) {
 
     function getItemDisplay(item) {
         return (
-            <Table fluid definition key={item.id}>
-                <Table.Body key={`ITEM_${item.id}`}>
-                    <Table.Row>
-                        <Table.Cell width={2}>Name</Table.Cell>
-                        <Table.Cell>{getItemTypeName(item)}</Table.Cell>
-                    </Table.Row>
-                    {item.value ? 
-                        <Table.Row>
-                            <Table.Cell>Value</Table.Cell>
-                            <Table.Cell>{item.value}</Table.Cell>
-                        </Table.Row>
-                    : null}
-                    <Table.Row>
-                    <Table.Cell>Dates</Table.Cell>
-                    <Table.Cell>
-                        {item.date}
-                        <Button
-                            icon
-                            onClick={() => handleClickDelete(item.id)}
-                            floated='right'
-                        >
-                            <Icon
-                                color='red'
-                                name='cancel'
-                                key={item.i}
-                            />   
-                        </Button>                        
-                    </Table.Cell>
-                    </Table.Row>
-                </Table.Body>
-            </Table>            
+            <Grid.Row key={`ITEM_${item.id}`}>
+                <Grid.Column>{getItemTypeName(item)}</Grid.Column>
+                <Grid.Column>{item.value ? item.value : null}</Grid.Column>
+                <Grid.Column>
+                    <Button
+                        icon
+                        onClick={() => handleClickDelete(item.id)}
+                        floated='right'
+                    >
+                        <Icon
+                            color='red'
+                            name='cancel'
+                            key={item.i}
+                        />   
+                    </Button>                    
+                </Grid.Column>                        
+            </Grid.Row>
         );
     }
 

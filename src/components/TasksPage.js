@@ -5,7 +5,7 @@ import AddMultiple from './AddMultiple';
 
 
 import {
-    Tab,
+    Tab, Segment,
   } from 'semantic-ui-react';
 
 
@@ -30,7 +30,9 @@ import {
 function TasksPage() {
   const [state, ,] = useContext(GlobalContext);
   return (
+    <Segment>
       <AddMultiple itemTypes={state.itemTypes} title='All Tasks'/>
+    </Segment>
   );
 }
 export default TasksPage;
