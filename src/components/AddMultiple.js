@@ -19,22 +19,20 @@ function AddMultiple(props) {
         setAddIds(closedAddIds.concat(itemId));
     }
     return (
-        <Container>
-                <Grid columns='equal'>
-                    <Grid.Row>
-                        <Grid.Column width={12}>
-                            <Segment>{props.title}</Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-                    {Object.keys(props.itemTypes).map((itemTypeId) => {
-                        const itemType = state.itemTypes[itemTypeId];
-                        if(itemType && !closedAddIds.includes(itemType.id)) {
-                            return(<AddItem key={itemType.id} itemType={itemType} callback={closeItem}/>);
-                        }
-                        return null;
-                    })}
-                </Grid>
-        </Container>
+        <Grid columns='equal' padded>
+            <Grid.Row>
+                <Grid.Column>
+                    <Segment>{props.title}</Segment>
+                </Grid.Column>
+            </Grid.Row>
+            {Object.keys(props.itemTypes).map((itemTypeId) => {
+                const itemType = state.itemTypes[itemTypeId];
+                if(itemType && !closedAddIds.includes(itemType.id)) {
+                    return(<AddItem key={itemType.id} itemType={itemType} callback={closeItem}/>);
+                }
+                return null;
+            })}
+        </Grid>
     );
 }
 

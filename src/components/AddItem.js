@@ -114,6 +114,7 @@ function AddItem(props) {
 
         return (
                 <Select
+                    fluid
                     placeholder='Select a type to track...'
                     options={pulldownOptions}
                     value={selectedItemType}
@@ -130,13 +131,13 @@ function AddItem(props) {
         <>
             
                 <Grid.Row key={`AddItem-${props.itemType.id}`}>
-                    <Grid.Column width={4}>
+                    <Grid.Column width={7}>
                         {getSelectTypeChooser()}
                     </Grid.Column>
                     <Grid.Column width={6}>
                         {itemFormChooser()}
                     </Grid.Column>
-                    <Grid.Column width={2}>
+                    <Grid.Column width={1}>
                     {
                         (saved === false) ?
                             <Button positive onClick={handleClickCreate}>Add</Button>

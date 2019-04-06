@@ -23,7 +23,7 @@ function CompletedItem(props) {
 
     function getItemDisplay(item) {
         return (
-            <Table definition key={item.id}>
+            <Table fluid definition key={item.id}>
                 <Table.Body key={`ITEM_${item.id}`}>
                     <Table.Row>
                         <Table.Cell width={2}>Name</Table.Cell>

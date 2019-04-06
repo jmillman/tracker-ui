@@ -40,7 +40,7 @@ export function withGlobalContext(Component) {
         // This will fetch all items, if necessary
         useEffect(() => {
             fetchUsersFromApp();
-            // loginUserFromApp({id: "3", name: "Jared"});
+            loginUserFromApp({id: "3", name: "Jared"});
         }, []);
 
         const currentDate = new Date().toISOString().slice(0,10);

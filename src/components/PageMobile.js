@@ -17,7 +17,7 @@ const tabs = {
 function PageMobile() {
     const [state , ,] = useContext(GlobalContext);
 
-  const [ selectedTab, setSelectedTab ] = useState(tabs.LOGIN);
+  const [ selectedTab, setSelectedTab ] = useState(tabs.COMPLETE_TASKS);
 
   function getContent() {
     switch(selectedTab) {
@@ -69,9 +69,7 @@ function getMenu() {
       <>
         <Menu size='huge'>
             {getMenu()}
-            <Menu.Menu position='right'>
-                <Menu.Item key={tabs.LOGIN} name={getLoggedInName()} active={selectedTab === tabs.LOGIN} onClick={()=> setSelectedTab(tabs.LOGIN)} />
-            </Menu.Menu>
+            <Menu.Item position='right' key={tabs.LOGIN} name={getLoggedInName()} active={selectedTab === tabs.LOGIN} onClick={()=> setSelectedTab(tabs.LOGIN)} />
         </Menu>
         {getContent()}
       </>
