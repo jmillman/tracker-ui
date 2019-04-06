@@ -20,11 +20,6 @@ function AddMultiple(props) {
     }
     return (
         <Grid columns='equal' padded>
-            <Grid.Row>
-                <Grid.Column>
-                    <Segment>{props.title}</Segment>
-                </Grid.Column>
-            </Grid.Row>
             {Object.keys(props.itemTypes).map((itemTypeId) => {
                 const itemType = state.itemTypes[itemTypeId];
                 if(itemType && !closedAddIds.includes(itemType.id)) {

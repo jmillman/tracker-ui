@@ -18,6 +18,7 @@ function SelectList(props) {
     return(
         <Form.Field>
                 <Select
+                    fluid
                     placeholder={props.placeholder}
                     options={pulldownOptions}
                     value={props.selected}
