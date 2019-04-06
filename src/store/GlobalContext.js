@@ -88,7 +88,7 @@ export function withGlobalContext(Component) {
 
             addItem.save((result) => {
                     fetchItemsFromApp(state.loggedInUser.id);
-                    addSuccessCallback();
+                    addSuccessCallback(result);
                 }
             );
         };

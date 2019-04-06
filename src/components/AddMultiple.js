@@ -6,6 +6,7 @@ import AddItem from './AddItem';
 import {
     Container,
     Segment,
+    Grid,
   } from 'semantic-ui-react';
 
   
@@ -19,20 +20,20 @@ function AddMultiple(props) {
     }
     return (
         <Container>
-            <Segment.Group>
-                <Segment textAlign='center'>
-                    {props.title}
-                </Segment>
-                <Segment>
+                <Grid columns='equal'>
+                    <Grid.Row>
+                        <Grid.Column width={12}>
+                            <Segment>{props.title}</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
                     {Object.keys(props.itemTypes).map((itemTypeId) => {
                         const itemType = state.itemTypes[itemTypeId];
                         if(itemType && !closedAddIds.includes(itemType.id)) {
-                            return(<AddItem key={itemType.id} itemType={itemType} closeMe={closeItem}/>);
+                            return(<AddItem key={itemType.id} itemType={itemType} callback={closeItem}/>);
                         }
                         return null;
                     })}
-                </Segment>
-            </Segment.Group>
+                </Grid>
         </Container>
     );
 }

@@ -9,6 +9,8 @@ import {
     Input,
     Select,
     Label,
+    Grid,
+    Segment,
   } from 'semantic-ui-react';
 
     // I have two different types of inputs, one you can type in, which is good for long lists
@@ -17,19 +19,32 @@ import {
 function AddItem(props) {
     const [state , , api] = useContext(GlobalContext);
     const [valueToAdd, setValueToAdd] = useState('');
+    const [saved, setSaved] = useState(false);
+    const [addedId, setAddedId] = useState(null);
     const [selectedItemType, setSelectedItemType] = useState(props.itemType ? props.itemType.id : '');
-    
-    async function closeMe() {
-        if (props.closeMe) {
-            props.closeMe(selectedItemType);
-        } else {
-            setSelectedItemType('');
-            setValueToAdd('');
+
+    async function saveCallback(results) {
+        if(results.id) {
+            setAddedId(results.id);
+            setSaved(true);
         }
+        // if (props.callback) {
+        //     props.callback(selectedItemType);
+        // } else {
+        //     setSelectedItemType('');
+        //     setValueToAdd('');
+        // }
     }
 
     function handleClickCreate() {
-        api.addItemFromApp(valueToAdd, selectedItemType, closeMe);
+        api.addItemFromApp(valueToAdd, selectedItemType, saveCallback);
+    }
+
+    function handleClickDelete() {
+        api.deleteItemFromApp(addedId);
+        setValueToAdd('');
+        setSaved(false);
+        setAddedId(null);
     }
 
     function itemFormChooser() {
@@ -40,26 +55,19 @@ function AddItem(props) {
             switch(itemTypeSelected.dataType_1) {
                 case ItemDataTypes.NUMBER:
                     returnArray.push (
-                        <Form.Field key={'EventType'}>
-                            <input
-                                placeholder={itemTypeSelected.dataName_1}
-                                value={valueToAdd}
-                                onChange={(e) => setValueToAdd(e.target.value)}
-                            />
-                        </Form.Field>
+                        <Input
+                            fluid
+                            key={'EventType'}
+                            placeholder={itemTypeSelected.dataName_1}
+                            value={valueToAdd}
+                            onChange={(e) => setValueToAdd(e.target.value)}
+                        />
                     );
                     break;
                 case ItemDataTypes.EVENT:
                 default:
                         break;
             }
-
-            returnArray.push(
-                <Form.Field key={'AddButton'}>
-                    <Button positive onClick={handleClickCreate}>Add</Button>
-                    <Button negative onClick={closeMe}>Cancel</Button>
-                </Form.Field>
-            );
         }
         else if (selectedItemType !== '') {
             returnArray.push(
@@ -76,7 +84,7 @@ function AddItem(props) {
         const itemTypes = state.itemTypes;
         if( useTypingSelectionBox ) {
             return (
-                <Form.Field>
+                <>
                     <Input
                         list='itemTypesList'
                         placeholder='Select a type to track...'
@@ -92,7 +100,7 @@ function AddItem(props) {
                         );
                     })}
                     </datalist>
-                </Form.Field> 
+                </> 
             );
         }
 
@@ -105,16 +113,14 @@ function AddItem(props) {
         });
 
         return (
-            <Form.Field>
-                    <Select
-                        placeholder='Select a type to track...'
-                        options={pulldownOptions}
-                        value={selectedItemType}
-                        onChange={(e, data)=>{
-                            setSelectedItemType(data.value)
-                        }}
-                    />
-            </Form.Field>
+                <Select
+                    placeholder='Select a type to track...'
+                    options={pulldownOptions}
+                    value={selectedItemType}
+                    onChange={(e, data)=>{
+                        setSelectedItemType(data.value)
+                    }}
+                />
         );
 
 
@@ -122,10 +128,23 @@ function AddItem(props) {
 
     return (
         <>
-            <Form>
-                {getSelectTypeChooser()}
-                {itemFormChooser()}
-            </Form>
+            
+                <Grid.Row key={`AddItem-${props.itemType.id}`}>
+                    <Grid.Column width={4}>
+                        {getSelectTypeChooser()}
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        {itemFormChooser()}
+                    </Grid.Column>
+                    <Grid.Column width={2}>
+                    {
+                        (saved === false) ?
+                            <Button positive onClick={handleClickCreate}>Add</Button>
+                        :
+                            <Button negative onClick={handleClickDelete}>Delete</Button>
+                        }
+                            </Grid.Column>
+                </Grid.Row>
         </>
     );
 }
