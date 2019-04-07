@@ -1,10 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import GlobalContext from '../store/GlobalContext';
 import CompletedItem from './CompletedItem';
 import { ItemsFilter } from '../filters/ItemsFilter';
-
-
 
 import {
     Segment,
@@ -13,17 +11,15 @@ import {
 
 
 const itemsFilter = new ItemsFilter();
+
 function ItemsArea(props) {
 
     const [state, ,] = useContext(GlobalContext);
-    const [name, setName] = useState('');
-    const [lastDate, setLastDate] = useState('');
 
     useEffect(() => {
         const item = state.views.filter(view=> { return view.id === props.viewId})[0];
         if(item) {
             itemsFilter.hydrateFromJson(item.notes);
-            setName(item.value);
             }
     }, [state.views]);
 
@@ -33,19 +29,6 @@ function ItemsArea(props) {
 
     function getDataByDate(date) {
         return getData().filter(data => data.date === date);
-    }
-
-    function getLastDateRow(item) {
-        if(item.date === lastDate) return null;
-
-        // setLastDate(item.date);
-        return (
-            <Grid.Row key='daterow'>
-                <Grid.Column>
-                    <Segment>{item.date}</Segment>
-                </Grid.Column>
-            </Grid.Row>            
-        );
     }
 
     function getDatesArray(){
@@ -64,7 +47,9 @@ function ItemsArea(props) {
                 retArray.push(
                     <CompletedItem item={item} key={item.id}/>
                 );
+                return null;
             });
+            return null;
         });
         return retArray;              
     }

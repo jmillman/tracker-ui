@@ -2,11 +2,9 @@ import React, { useContext } from 'react';
 import GlobalContext from '../store/GlobalContext';
 // import { debug } from '../utils';
 import {
-    Table,
     Icon,
     Button,
     Grid,
-    Segment,
   } from 'semantic-ui-react';
 
 function CompletedItem(props) {

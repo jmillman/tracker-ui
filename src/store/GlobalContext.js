@@ -10,6 +10,7 @@ import { createContext } from 'react';
 import reducer from '../store/reducer';
 import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput } from '../api/restApi';
 import { useCookies } from 'react-cookie';
+import moment from 'moment';
 
 const GlobalContext = createContext();
 export default GlobalContext;
@@ -51,7 +52,7 @@ export function withGlobalContext(Component) {
             fetchUsersFromApp();
         }, []);
 
-        const currentDate = new Date().toISOString().slice(0,10);
+        const currentDate = moment().format('YYYY-MM-DD');
         
         const addItemTypeFromApp = (name, dataType_1, dataName_1, dataType_2, dataName_2, successCallback) => {
             addItemType(state.loggedInUser.id, name, dataType_1, dataName_1, dataType_2, dataName_2,
@@ -91,8 +92,8 @@ export function withGlobalContext(Component) {
             );
         };
     
-        const addItemFromApp = (value, typeId, addSuccessCallback) => {
-            const addItem = new AddItemInput(state.loggedInUser.id, 'taskCompleted', value, currentDate, typeId, null);
+        const addItemFromApp = (value, typeId, date, addSuccessCallback) => {
+            const addItem = new AddItemInput(state.loggedInUser.id, 'taskCompleted', value, date, typeId, null);
 
             addItem.save((result) => {
                     fetchItemsFromApp(state.loggedInUser.id);

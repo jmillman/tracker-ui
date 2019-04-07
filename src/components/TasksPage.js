@@ -1,46 +1,26 @@
 import React, { useContext, useState, useEffect } from 'react';
 import GlobalContext from '../store/GlobalContext';
-import AddItem from './AddItem';
 import AddMultiple from './AddMultiple';
 import SelectList from './SelectList';
+import { DateInput } from 'semantic-ui-calendar-react';
+import moment from 'moment';
 
 
 import {
-    Tab, Segment, SegmentGroup, Grid
+    Grid
   } from 'semantic-ui-react';
 
-
-// function TasksPage() {
-//     const [state, ,] = useContext(GlobalContext);
-//     const panes = [
-//       { menuItem: 'All Tasks', render: () => <Tab.Pane fluid><AddMultiple itemTypes={state.itemTypes} title='All Tasks'/></Tab.Pane> },
-//       { menuItem: 'Add Single', render: () => <Tab.Pane><AddItem /></Tab.Pane> },
-//       ];
-//     state.taskLists.forEach(taskList => {
-//         const tabName = `${taskList.value} Task List`;
-//         const itemsInList = taskList.notes.split(',');
-//         const itemTypes = itemsInList.reduce((result, key) => ({ ...result, [key]: state.itemTypes[key] }), {});
-//         panes.push({ menuItem: { key: taskList.id, content: tabName }, render: () => <Tab.Pane><AddMultiple itemTypes={itemTypes} title={tabName}/></Tab.Pane> });
-//     });
-
-//     return (
-//         <Tab  menu={{ pointing: true, className: "wrapped" }} panes={panes} />
-//     );
-// }
 
 const ALL = 'All Tasks';
 
 function TasksPage() {
-  const [state, ,api] = useContext(GlobalContext);
+  const [state, ,] = useContext(GlobalContext);
   const [taskListToEditId, setTaskListToEditId] = useState(ALL);
+  const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   const [itemTypes, setItemTypes] = useState({});
-  const [optionItems, setOptionItems] = useState([{id: ALL, value: ALL}]);
   const [name, setName] = useState(ALL);
-
-  useEffect(() => {
-      setOptionItems(optionItems.concat(state.taskLists));
-  }, [state.taskLists]);  
-
+  const optionItems = [{id: ALL, value: ALL}].concat(state.taskLists);
+  
   useEffect(() => {
         setItemTypes(state.itemTypes);
   }, [state.itemTypes]);  
@@ -61,6 +41,12 @@ function TasksPage() {
       }
 }
 
+
+function handleChangeDate(event, {name, value}) {
+  setDate(value);
+  handleSelectTaskList(taskListToEditId);
+}
+
 return (
     <>
         <Grid columns='equal' padded>
@@ -77,9 +63,21 @@ return (
               />
             </Grid.Column>
           </Grid.Row>
+          <Grid.Row key={'Calendar'}>
+            <Grid.Column width={15}>
+              <DateInput
+                  name="date"
+                  placeholder="Date"
+                  dateFormat='YYYY-MM-DD'
+                  value={date}
+                  iconPosition="left"
+                  onChange={handleChangeDate}
+                  closable={true}
+              />
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
-      {JSON.stringify(api.cookies)}
-      <AddMultiple itemTypes={itemTypes} title={name} />
+      <AddMultiple  key={date + name} itemTypes={itemTypes} date={date} />
     </>
 
   );

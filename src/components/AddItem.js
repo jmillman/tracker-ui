@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
 import GlobalContext from '../store/GlobalContext';
+import PropTypes from 'prop-types';
 
 import { ItemDataTypes } from '../templates/itemTypes';
 
 import {
     Button,
-    Form,
     Input,
     Select,
     Label,
     Grid,
-    Segment,
   } from 'semantic-ui-react';
 
     // I have two different types of inputs, one you can type in, which is good for long lists
@@ -37,7 +36,7 @@ function AddItem(props) {
     }
 
     function handleClickCreate() {
-        api.addItemFromApp(valueToAdd, selectedItemType, saveCallback);
+        api.addItemFromApp(valueToAdd, selectedItemType, props.date, saveCallback);
     }
 
     function handleClickDelete() {
@@ -148,6 +147,12 @@ function AddItem(props) {
                 </Grid.Row>
         </>
     );
+}
+
+AddItem.propTypes = {
+    itemType: PropTypes.object.isRequired,
+    callback: PropTypes.func.isRequired,
+    date: PropTypes.string.isRequired,
 }
 
 export default AddItem;

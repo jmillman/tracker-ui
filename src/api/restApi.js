@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const url = 'https://redjsolutions.com/api/index.php';
 
 export class AddItemInput{
@@ -6,7 +7,7 @@ export class AddItemInput{
         this.userid = userid;
         this.recordType = recordType;
         this.value= value;
-        this.date = new Date().toISOString().slice(0,10);
+        this.date = date;
         this.typeId = typeId;
         this.notes = notes;
     }
