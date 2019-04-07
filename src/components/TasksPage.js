@@ -7,7 +7,9 @@ import moment from 'moment';
 
 
 import {
-    Grid
+    Grid,
+    Button,
+    Icon,
   } from 'semantic-ui-react';
 
 
@@ -18,6 +20,7 @@ function TasksPage() {
   const [taskListToEditId, setTaskListToEditId] = useState(ALL);
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   const [itemTypes, setItemTypes] = useState({});
+  const [calendarVisible, setCalendarVisible] = useState(false);
   const [name, setName] = useState(ALL);
   const optionItems = [{id: ALL, value: ALL}].concat(state.taskLists);
   
@@ -47,11 +50,37 @@ function handleChangeDate(event, {name, value}) {
   handleSelectTaskList(taskListToEditId);
 }
 
+function handleClickToggleCalendar() {
+  setCalendarVisible(!calendarVisible);
+}
+
+function getCalendar() {
+  if(calendarVisible) {
+    return(
+      <Grid.Row key={'Calendar'}>
+        <Grid.Column width={15}>
+          <DateInput
+              inline
+              name="date"
+              placeholder="Date"
+              dateFormat='YYYY-MM-DD'
+              value={date}
+              iconPosition="left"
+              onChange={handleChangeDate}
+              closable={true}
+          />
+        </Grid.Column>
+      </Grid.Row>
+    );  
+  }
+  return null;
+}
+
 return (
     <>
         <Grid columns='equal' padded>
           <Grid.Row key={'TaskPage'}>
-            <Grid.Column width={15}>
+            <Grid.Column width={13}>
               <SelectList
                 fluid
                 callback={handleSelectTaskList}
@@ -62,20 +91,18 @@ return (
                 textKey={'value'}
               />
             </Grid.Column>
-          </Grid.Row>
-          <Grid.Row key={'Calendar'}>
-            <Grid.Column width={15}>
-              <DateInput
-                  name="date"
-                  placeholder="Date"
-                  dateFormat='YYYY-MM-DD'
-                  value={date}
-                  iconPosition="left"
-                  onChange={handleChangeDate}
-                  closable={true}
-              />
+            <Grid.Column width={1}>
+              <Button
+                  icon
+                  onClick={handleClickToggleCalendar}
+              >
+                  <Icon
+                      name='calendar'
+                  />   
+              </Button>  
             </Grid.Column>
           </Grid.Row>
+          {getCalendar()}
         </Grid>
       <AddMultiple  key={date + name} itemTypes={itemTypes} date={date} />
     </>
