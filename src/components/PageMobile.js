@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import GlobalContext from '../store/GlobalContext';
 import { Icon, Menu } from 'semantic-ui-react'
 import ViewsPage from './ViewsPage';
@@ -17,7 +17,13 @@ const tabs = {
 function PageMobile() {
     const [state , ,] = useContext(GlobalContext);
 
-  const [ selectedTab, setSelectedTab ] = useState(tabs.COMPLETE_TASKS);
+  const [ selectedTab, setSelectedTab ] = useState(tabs.LOGIN);
+
+  useEffect(() => {
+    if(state.loggedInUser) {
+        setSelectedTab(tabs.COMPLETE_TASKS);
+    }
+  }, [state.loggedInUser]);  
 
   function getContent() {
     switch(selectedTab) {

@@ -37,7 +37,7 @@ export function withGlobalContext(Component) {
     
         const fetchUsersFromApp = () => {
             fetchUsers((result) => {
-                if(userIdCookie) {
+                if(userIdCookie.userId) {
                     const loggedInUser = result.find(({id}) => id === userIdCookie.userId);
                     loginUserFromApp(loggedInUser);
                 }
@@ -158,6 +158,7 @@ export function withGlobalContext(Component) {
             loginUserFromApp,
             editViewFromApp,
             editListFromApp,
+            userIdCookie,
         }
 
         return (
