@@ -134,7 +134,7 @@ function AddItem(props) {
                     <Grid.Column width={7}>
                         {getSelectTypeChooser()}
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={5}>
                         {itemFormChooser()}
                     </Grid.Column>
                     <Grid.Column width={1}>

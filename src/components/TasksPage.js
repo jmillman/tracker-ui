@@ -65,7 +65,7 @@ return (
     <>
         <Grid columns='equal' padded>
           <Grid.Row key={'TaskPage'}>
-            <Grid.Column width={5}>
+            <Grid.Column width={15}>
               <SelectList
                 fluid
                 callback={handleSelectTaskList}
