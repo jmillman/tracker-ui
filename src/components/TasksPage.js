@@ -31,7 +31,7 @@ import {
 const ALL = 'All Tasks';
 
 function TasksPage() {
-  const [state, ,] = useContext(GlobalContext);
+  const [state, ,api] = useContext(GlobalContext);
   const [taskListToEditId, setTaskListToEditId] = useState(ALL);
   const [itemTypes, setItemTypes] = useState({});
   const [optionItems, setOptionItems] = useState([{id: ALL, value: ALL}]);
@@ -78,7 +78,7 @@ return (
             </Grid.Column>
           </Grid.Row>
         </Grid>
-
+      {JSON.stringify(api.cookies)}
       <AddMultiple itemTypes={itemTypes} title={name} />
     </>
 

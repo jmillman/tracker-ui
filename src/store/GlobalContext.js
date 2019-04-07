@@ -9,6 +9,7 @@ import React, { useReducer, useEffect } from 'react';
 import { createContext } from 'react';
 import reducer from '../store/reducer';
 import { fetchItems, deleteItem, addItemType, fetchUsers, fetchItemTypes, deleteItemType, AddItemInput, AddUserInput } from '../api/restApi';
+import { useCookies } from 'react-cookie';
 
 const GlobalContext = createContext();
 export default GlobalContext;
@@ -16,6 +17,7 @@ export default GlobalContext;
 export function withGlobalContext(Component) {
     return function contextComponent(props) {
         const [state, callReducer] = useReducer(reducer, {data: [], taskLists: [], itemTypes: [], views: [], users: []});
+        const [userIdCookie, setUserIDCookie] = useCookies(['userId']);
 
         const fetchItemsFromApp = (userId) => {
             fetchItems(userId, (result) => {
@@ -34,13 +36,19 @@ export function withGlobalContext(Component) {
         };
     
         const fetchUsersFromApp = () => {
-            fetchUsers((result) => callReducer({type: 'USERS', users: result}));
+            fetchUsers((result) => {
+                if(userIdCookie) {
+                    const loggedInUser = result.find(({id}) => id === userIdCookie.userId);
+                    loginUserFromApp(loggedInUser);
+                }
+                    callReducer({type: 'USERS', users: result})
+                }
+            );
         };
     
         // This will fetch all items, if necessary
         useEffect(() => {
             fetchUsersFromApp();
-            // loginUserFromApp({id: "3", name: "Jared"});
         }, []);
 
         const currentDate = new Date().toISOString().slice(0,10);
@@ -132,6 +140,7 @@ export function withGlobalContext(Component) {
         };
 
         const loginUserFromApp = (user) => {
+            setUserIDCookie('userId', user.id);
             callReducer({type: 'loginUser', user: user});
             fetchItemsFromApp(user.id);
             fetchItemTypesFromApp(user.id);
